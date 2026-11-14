@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KIMI — GRIDO1 Racing Systems / Kimi Antonelli</title>
+  <title>MAX — GRIDO1 Racing Systems / Max Verstappen</title>
 
   <script type="importmap">
   {
@@ -1911,7 +1911,7 @@
       <div class="veil-helmet-shell"></div>
       <div class="veil-helmet-fill" id="veil-fill"></div>
     </div>
-    <div class="veil-name" id="veil-name">KIMI ANTONELLI</div>
+    <div class="veil-name" id="veil-name">MAX VERSTAPPEN</div>
     <div class="veil-meter-track">
       <div class="veil-meter-fill" id="veil-meter"></div>
     </div>
@@ -1992,34 +1992,30 @@
           <div class="hero-middle">
             <!-- Left Rail: Driver Identity -->
             <div class="driver-identity" id="driver-identity">
-              <div class="driver-id" id="driver-id">driver_012</div>
+              <div class="driver-id" id="driver-id">driver_001</div>
               <h1 class="driver-name" id="driver-name">
-                <span class="visually-hidden">KIMI ANTONELLI</span>
+                <span class="visually-hidden">MAX VERSTAPPEN</span>
                 <span class="reveal-text" aria-hidden="true">
-                  <span class="reveal-unit">KIMI</span>
-                  <span class="reveal-unit">ANTONELLI</span>
+                  <span class="reveal-unit">MAX</span>
+                  <span class="reveal-unit">VERSTAPPEN</span>
                 </span>
               </h1>
 
               <ul class="driver-meta" id="driver-meta">
                 <li class="driver-meta-row" style="transition-delay: 440ms;">
-                  <svg class="meta-icon-flag" viewBox="0 0 18 12" fill="none" aria-label="Italy">
-                    <rect width="6" height="12" fill="#009246"/>
-                    <rect x="6" width="6" height="12" fill="#FFFFFF"/>
-                    <rect x="12" width="6" height="12" fill="#CE2B37"/>
+                  <svg class="meta-icon-flag" viewBox="0 0 18 12" fill="none" aria-label="Netherlands">
+                    <rect width="18" height="4" fill="#AE1C28"/>
+                    <rect y="4" width="18" height="4" fill="#FFFFFF"/>
+                    <rect y="8" width="18" height="4" fill="#21468B"/>
                   </svg>
-                  <span>Italy</span>
+                  <span>Netherlands</span>
                 </li>
                 <li class="driver-meta-row" style="transition-delay: 570ms;">
                   <span class="meta-icon-rookie">✦</span>
-                  <span>Rookie Season_2026</span>
+                  <span>4× World Champion</span>
                 </li>
                 <li class="driver-meta-row" style="transition-delay: 700ms;">
-                  <svg class="meta-icon-star" viewBox="0 0 14 14" fill="none" aria-label="Mercedes-AMG">
-                    <circle cx="7" cy="7" r="6.2" stroke="currentColor" stroke-width="0.8"/>
-                    <path d="M7 1.5L7 7M7 7L2.2 9.8M7 7L11.8 9.8" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/>
-                  </svg>
-                  <span>Mercedes-AMG F1 Team</span>
+                  <span>Oracle Red Bull Racing</span>
                 </li>
               </ul>
             </div>
@@ -2556,8 +2552,8 @@
       </div>
 
       <div class="signoff-legal">
-        <span>© 2026 GRIDO1 RACING SYSTEMS. DRIVER_012 ANDREA KIMI ANTONELLI.</span>
-        <span>MERCEDES-AMG PETRONAS FORMULA ONE TEAM OFFICIAL LICENSED ASSET.</span>
+        <span>© 2026 GRIDO1 RACING SYSTEMS. DRIVER_001 MAX VERSTAPPEN.</span>
+        <span>ORACLE RED BULL RACING OFFICIAL LICENSED ASSET.</span>
       </div>
     </div>
   </section>
@@ -2775,13 +2771,12 @@
       return resolved;
     };
 
-    const HEAD_HEIGHT = 5.4;
-    const HEAD_EXTEND = 0.14;
-    const HELMET_WORN_OFFSET = new THREE.Vector3(0, -0.56, 0.35);
+    const SUBJECT_ASPECT = 1024 / 526;
+    const SUBJECT_HEIGHT = 4.0;
+    const SUBJECT_WIDTH = SUBJECT_HEIGHT * SUBJECT_ASPECT;
     const STATIC_POSE = { x: 0.3, y: 0.1 };
     const DEG = Math.PI / 180;
     const BACKDROP_Z = -3;
-    const OUTLINE_MAX_WAVES = 8;
     const AUTO_SWEEP_PATH = [
       { x: -0.85, y: -0.62 },
       { x: 0.78, y: -0.2 },
@@ -2875,47 +2870,6 @@
       }
     `;
 
-    const outlineVertex = `
-      varying float vHeight;
-      uniform float uMinY;
-      uniform float uRangeY;
-      void main() {
-        vHeight = (position.y - uMinY) / max(uRangeY, 0.0001);
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      }
-    `;
-
-    const outlineFragment = `
-      varying float vHeight;
-      uniform float uTime;
-      uniform float uPeriod;
-      uniform float uStagger;
-      uniform float uOpacity;
-      uniform float uBase;
-      uniform float uWidth;
-      uniform float uLightness;
-      uniform float uRevealMix;
-      uniform vec3 uColor;
-
-      void main() {
-        float width = max(uWidth, 0.0001);
-        float period = max(uPeriod, 0.0001);
-        float stagger = max(uStagger, 0.0001);
-        float start = 1.0 + width * 3.0;
-        float travel = 1.0 + width * 6.0;
-        float wave = 0.0;
-        for (int i = 0; i < ${OUTLINE_MAX_WAVES}; i++) {
-          float age = mod(uTime, stagger) + float(i) * stagger;
-          if (age > period) break;
-          float centre = start - (age / period) * travel;
-          float d = (vHeight - centre) / width;
-          wave = max(wave, exp(-d * d));
-        }
-        vec3 stroke = mix(uColor, vec3(1.0), uLightness);
-        gl_FragColor = vec4(stroke, (uBase + wave * uOpacity) * uRevealMix);
-      }
-    `;
-
     const backdropVertex = `
       varying vec4 vBackdropClip;
       void main() {
@@ -2971,88 +2925,98 @@
       }
     `;
 
-    const headVertex = `
-      uniform float uExtend;
+    const subjectVertex = `
       varying vec2 vUv;
+      varying vec4 vRevealClip;
       void main() {
-        vUv = vec2(uv.x, 1.0 - (1.0 - uv.y) * (1.0 + uExtend));
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        vUv = uv;
+        vec4 clip = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        vRevealClip = clip;
+        gl_Position = clip;
       }
     `;
 
-    const headFragment = `
-      uniform sampler2D uDiffuse;
-      uniform sampler2D uDepth;
-      uniform sampler2D uAlpha;
-      uniform sampler2D uNormal;
-      uniform vec2 uParallax;
-      uniform float uReveal;
-      uniform float uDepthScale;
-      uniform float uRelight;
+    const buildSubjectFragment = (samples) => `
       varying vec2 vUv;
+      varying vec4 vRevealClip;
+
+      uniform sampler2D uMainTex;
+      uniform sampler2D uRevealTex;
+      uniform vec2 uParallax;
+      uniform float uParallaxScale;
+      uniform float uIntro;
+      uniform float uBurnStart;
+      uniform float uBurnSoft;
+      uniform float uBurnGlow;
+      uniform vec3 uBurnColor;
+
+      ${buildRevealDeclarations(samples)}
+
       void main() {
-        float depth = texture2D(uDepth, vUv).r;
-        vec2 offset = uParallax * (depth - 0.5) * uDepthScale;
-        vec2 uv = vUv + offset;
-        vec4 color = texture2D(uDiffuse, uv);
-        float alpha = texture2D(uAlpha, uv).r;
-        vec3 normal = normalize(texture2D(uNormal, uv).rgb * 2.0 - 1.0);
-        vec3 lightDir = normalize(vec3(uParallax * 1.6, 1.0));
-        float lambert = max(dot(normal, lightDir), 0.0) - 0.72;
-        vec3 lit = color.rgb * (1.0 + lambert * uRelight);
-        gl_FragColor = vec4(clamp(lit, 0.0, 1.0), alpha * uReveal);
+        vec2 uv = clamp(vUv + uParallax * uParallaxScale, 0.0, 1.0);
+
+        vec4 mainCol = texture2D(uMainTex, uv);
+        vec4 revealCol = texture2D(uRevealTex, uv);
+
+        vec2 revealNdc = vRevealClip.xy / vRevealClip.w;
+        float cursorTrail = revealTrail(revealNdc);
+
+        float burnFront = smoothstep(uBurnStart, 1.0, uIntro);
+        float burnNoise = texture2D(uNoiseTex, revealNdc * 0.5 + 0.5).r;
+        float burnHeight = 1.0 - (revealNdc.y * 0.5 + 0.5);
+        float burnAt = mix(burnHeight, burnNoise, 0.45);
+        float intact = smoothstep(burnFront - uBurnSoft, burnFront + uBurnSoft, burnAt);
+
+        float revealFactor = clamp(max(cursorTrail, intact), 0.0, 1.0);
+
+        float burnEdge = 4.0 * intact * (1.0 - intact);
+        float trailEdge = smoothstep(0.02, 0.20, cursorTrail) * (1.0 - smoothstep(0.70, 0.96, cursorTrail));
+        float totalEdge = max(burnEdge, trailEdge * 0.65);
+
+        vec4 blended = mix(mainCol, revealCol, revealFactor);
+        blended.rgb += uBurnColor * totalEdge * (uBurnGlow * 0.35) * uRevealMix;
+
+        float alpha = mix(mainCol.a, revealCol.a, revealFactor);
+        if (alpha < 0.01) {
+          discard;
+        }
+
+        gl_FragColor = vec4(clamp(blended.rgb, 0.0, 1.0), alpha);
         #include <colorspace_fragment>
       }
     `;
 
     const DEFAULT_PARAMS = {
       cameraZ: 6.5,
-      subjectScale: 1.15,
+      subjectScale: 1.0,
       subjectX: 0,
-      subjectY: 0.42,
-      subjectParallax: 0.02,
-      riseDistance: 200,
-      riseDuration: 2,
-      headScale: 0.8,
-      headY: 0.58,
-      headParallax: 0.005,
-      headRelight: 0.32,
-      helmetScale: 0.69,
-      helmetX: -0.08,
-      helmetY: 0.45,
-      helmetZ: 0,
-      helmetFollow: 0.01,
-      helmetAmpX: 2.5,
-      helmetCurveX: 0,
-      helmetAmpY: 2.1,
-      helmetCurveY: 0,
-      helmetBrightness: 1,
-      trailRadius: 0.46,
+      subjectY: 0.0,
+      subjectParallax: 0.025,
+      subjectParallaxScale: 0.012,
+      subjectTilt: 0.12,
+      subjectYaw: 0.18,
+      riseDistance: 0.6,
+      riseDuration: 2.0,
+      trailRadius: 0.50,
       trailIdleScale: 0.28,
-      trailTaper: 1.9,
+      trailTaper: 1.85,
       trailTaperIdle: 1.6,
       trailTaperFast: 1.25,
-      trailLength: 0.64,
+      trailLength: 0.68,
       revealThreshold: 0.08,
       revealEdge: 0.005,
       revealWarp: 1.29,
       revealWarpScale: 2.9,
       revealSpeed: 1.25,
       pointerLerp: 0.17,
-      pacePeak: 0.029,
-      paceAttack: 0.09,
-      paceRelease: 0.205,
-      paceThreshold: 0.06,
-      paceRamp: 0.15,
-      outlinePeriod: 3.1,
+      pacePeak: 0.028,
+      paceAttack: 0.10,
+      paceRelease: 0.19,
+      paceThreshold: 0.05,
+      paceRamp: 0.14,
       sweepWarp: 0.86,
       sweepLength: 0.67,
       sweepRadius: 0.33,
-      outlineStagger: 1.2,
-      outlineOpacity: 0.09,
-      outlineWidth: 0.15,
-      outlineBase: 0,
-      outlineLightness: 0.64,
       bgLineScale: 3.8,
       bgLineCount: 2.5,
       bgLineThickness: 1.4,
@@ -3062,10 +3026,10 @@
       bgRevealLightness: 0.62,
       bgRevealLightnessAlt: 0.44,
       bgRevealOpacity: 1,
-      introDuration: 4,
-      burnStart: 0.14,
+      introDuration: 3.6,
+      burnStart: 0.12,
       burnSoftness: 0.02,
-      burnGlow: 4,
+      burnGlow: 3.8,
       autoSweepAmount: 0,
       autoSweepPeriod: 5,
       autoSweepStroke: 0.45,
@@ -3101,7 +3065,7 @@
         this.samples = this._tier.trailSamples;
         this.trail = Array.from({ length: this.samples }, () => new THREE.Vector2(STATIC_POSE.x, -STATIC_POSE.y));
         this.sweepTrail = Array.from({ length: this.samples }, () => new THREE.Vector2(AUTO_SWEEP_PATH[0].x, -AUTO_SWEEP_PATH[0].y));
-        
+
         this.renderer = new THREE.WebGLRenderer({
           canvas,
           alpha: false,
@@ -3117,12 +3081,7 @@
         this.camera = new THREE.PerspectiveCamera(35, 1, 0.1, 50);
         this.camera.position.set(0, 0.1, 6.5);
 
-        this.helmetGroup = new THREE.Group();
-        this.helmetPivot = new THREE.Group();
         this.subjectGroup = new THREE.Group();
-
-        this.helmetGroup.add(this.helmetPivot);
-        this.subjectGroup.add(this.helmetGroup);
         this.scene.add(this.subjectGroup);
 
         this.params = { ...DEFAULT_PARAMS };
@@ -3160,8 +3119,8 @@
         this.pointer = { ...STATIC_POSE };
         this.smoothed = { ...STATIC_POSE };
         this.lastSmoothed = { ...STATIC_POSE };
-        this.tilt = swing(STATIC_POSE.y, this.params.helmetAmpX, this.params.helmetCurveX);
-        this.yaw = swing(STATIC_POSE.x, this.params.helmetAmpY, this.params.helmetCurveY);
+        this.tilt = swing(STATIC_POSE.y, 2.5, 0);
+        this.yaw = swing(STATIC_POSE.x, 2.1, 0);
         this.pointerSeen = false;
       }
 
@@ -3174,13 +3133,15 @@
           this.smoothed.y = y;
           this.lastSmoothed.x = x;
           this.lastSmoothed.y = y;
-          this.tilt = swing(y, this.params.helmetAmpX, this.params.helmetCurveX);
-          this.yaw = swing(x, this.params.helmetAmpY, this.params.helmetCurveY);
+          this.tilt = swing(y, 2.5, 0);
+          this.yaw = swing(x, 2.1, 0);
         }
       }
 
       beginRise() {
         this.riseStarted = true;
+        this.riseAt = null;
+        this.readyAt = null;
       }
 
       setParams(partial) {
@@ -3196,6 +3157,23 @@
         this.camera.aspect = this.aspect;
         this.camera.updateProjectionMatrix();
         if (this.revealUniforms) this.revealUniforms.uAspect.value = this.aspect;
+
+        const visibleHeight = 2 * this.camera.position.z * Math.tan((this.camera.fov * Math.PI) / 360);
+        const visibleWidth = visibleHeight * this.aspect;
+        const shoulderWidth = SUBJECT_WIDTH * 0.582;
+
+        if (this.aspect >= 1.25) {
+          this.responsiveScale = 1.0;
+          this.responsiveY = 0.0;
+        } else if (this.aspect >= 0.8) {
+          const targetRatio = 0.72;
+          this.responsiveScale = Math.min(1.0, (visibleWidth * targetRatio) / shoulderWidth);
+          this.responsiveY = -0.12 * (1 - this.responsiveScale);
+        } else {
+          const targetRatio = 0.84;
+          this.responsiveScale = Math.min(1.0, (visibleWidth * targetRatio) / shoulderWidth);
+          this.responsiveY = -0.22;
+        }
       }
 
       async init() {
@@ -3205,104 +3183,27 @@
             path,
             (t) => {
               if (srgb) t.colorSpace = THREE.SRGBColorSpace;
-              t.minFilter = THREE.LinearMipmapLinearFilter;
-              t.generateMipmaps = true;
+              t.minFilter = THREE.LinearFilter;
+              t.magFilter = THREE.LinearFilter;
+              t.generateMipmaps = false;
+              t.wrapS = THREE.ClampToEdgeWrapping;
+              t.wrapT = THREE.ClampToEdgeWrapping;
               resolve(t);
             },
             undefined,
             () => {
-              // Fallback if local file fails
-              console.warn("Using procedural fallback for", path);
+              console.warn("Using fallback for", path);
               resolve(null);
             }
           );
         });
 
-        const [diffuse, depth, alpha, normal, noise] = await Promise.all([
-          loadTex('./assets/hero/person-diffuse.webp', true),
-          loadTex('./assets/hero/person-depth.webp'),
-          loadTex('./assets/hero/person-alpha.webp'),
-          loadTex('./assets/hero/person-normal.webp'),
+        const [mainTex, revealTex, noise] = await Promise.all([
+          loadTex('./assets/hero/ms1.png', true),
+          loadTex('./assets/hero/ms2.png', true),
           loadTex('./assets/hero/noise.webp'),
         ]);
 
-        // PMREM env light
-        const pmrem = new THREE.PMREMGenerator(this.renderer);
-        const envScene = new THREE.Scene();
-        const lightMesh = new THREE.Mesh(
-          new THREE.SphereGeometry(10, 16, 16),
-          new THREE.MeshBasicMaterial({ color: 0xddeeff })
-        );
-        envScene.add(lightMesh);
-        this.scene.environment = pmrem.fromScene(envScene).texture;
-        pmrem.dispose();
-
-        this.buildHead(diffuse, depth, alpha, normal);
-
-        // Build 3D racing helmet
-        const helmetGroup = new THREE.Group();
-        const shellGeo = new THREE.SphereGeometry(1.6, 48, 32, 0, Math.PI * 2, 0, Math.PI * 0.74);
-        const shellMat = new THREE.MeshStandardMaterial({
-          color: new THREE.Color(0xd4af37), // metallic gold & carbon
-          metalness: 0.85,
-          roughness: 0.22,
-          side: THREE.FrontSide,
-          transparent: true,
-          depthWrite: false,
-          envMapIntensity: 1.3
-        });
-        const shellMesh = new THREE.Mesh(shellGeo, shellMat);
-        helmetGroup.add(shellMesh);
-
-        const visorGeo = new THREE.CylinderGeometry(1.61, 1.61, 0.72, 48, 1, true, -Math.PI * 0.42, Math.PI * 0.84);
-        const visorMat = new THREE.MeshStandardMaterial({
-          color: new THREE.Color(0x0e1114),
-          metalness: 0.95,
-          roughness: 0.1,
-          transparent: true,
-          depthWrite: false
-        });
-        const visorMesh = new THREE.Mesh(visorGeo, visorMat);
-        visorMesh.position.set(0, -0.16, 0.14);
-        visorMesh.rotation.y = Math.PI;
-        helmetGroup.add(visorMesh);
-
-        this.buildHelmet(helmetGroup, noise);
-        this.buildBackdrop(noise);
-
-        this.reveal = 1;
-        await this.renderer.compileAsync(this.scene, this.camera);
-        this.renderer.render(this.scene, this.camera);
-
-        this.ready = true;
-        if (this.onReady) this.onReady();
-      }
-
-      buildHead(diffuse, depth, alpha, normal) {
-        this.headMaterial = new THREE.ShaderMaterial({
-          vertexShader: headVertex,
-          fragmentShader: headFragment,
-          uniforms: {
-            uDiffuse: { value: diffuse },
-            uDepth: { value: depth },
-            uAlpha: { value: alpha },
-            uNormal: { value: normal },
-            uParallax: { value: new THREE.Vector2() },
-            uReveal: { value: 0 },
-            uDepthScale: { value: DEFAULT_PARAMS.headParallax },
-            uRelight: { value: DEFAULT_PARAMS.headRelight },
-            uExtend: { value: HEAD_EXTEND },
-          },
-          transparent: true,
-        });
-        const geometry = new THREE.PlaneGeometry(HEAD_HEIGHT, HEAD_HEIGHT * (1 + HEAD_EXTEND));
-        const head = new THREE.Mesh(geometry, this.headMaterial);
-        head.position.set(0, -0.55, 0);
-        this.headMesh = head;
-        this.subjectGroup.add(head);
-      }
-
-      buildHelmet(root, noise) {
         if (noise) {
           noise.wrapS = THREE.RepeatWrapping;
           noise.wrapT = THREE.RepeatWrapping;
@@ -3343,118 +3244,38 @@
           uBurnColor: { value: new THREE.Color(readToken("--accent") || "#FF1744") },
         };
 
-        root.traverse((object) => {
-          if (!object.isMesh) return;
-          const shell = object.material;
-          shell.side = THREE.FrontSide;
-          shell.transparent = true;
-          shell.depthWrite = false;
-          shell.envMapIntensity = 1.3;
-          this.injectRevealMask(shell);
-          object.renderOrder = 1;
-          this.shellMaterial = shell;
-        });
+        this.buildSubject(mainTex, revealTex);
+        this.buildBackdrop(noise);
 
-        const bounds = new THREE.Box3().setFromObject(root);
-        const size = bounds.getSize(new THREE.Vector3());
-        const scale = (HEAD_HEIGHT * 0.56) / Math.max(size.y, 1);
-        root.scale.setScalar(scale);
-        bounds.setFromObject(root);
-        const center = bounds.getCenter(new THREE.Vector3());
-        root.position.sub(center);
-        this.helmetPivot.position.copy(HELMET_WORN_OFFSET);
-        this.helmetPivot.add(root);
-        this.helmetGroup.updateMatrixWorld(true);
+        this.reveal = 1;
+        await this.renderer.compileAsync(this.scene, this.camera);
+        this.renderer.render(this.scene, this.camera);
 
-        this.buildOutline(root);
+        this.ready = true;
+        if (this.onReady) this.onReady();
       }
 
-      buildOutline(root) {
-        const toGroupLocal = this.helmetPivot.matrixWorld.clone().invert();
-        const geometries = [];
-        root.traverse((object) => {
-          if (!object.isMesh || !object.visible || !object.geometry) return;
-          const geometry = object.geometry.clone();
-          geometry.applyMatrix4(new THREE.Matrix4().multiplyMatrices(toGroupLocal, object.matrixWorld));
-          for (const name of Object.keys(geometry.attributes)) {
-            if (name !== 'position') geometry.deleteAttribute(name);
-          }
-          geometries.push(geometry);
-        });
-        if (!geometries.length) return;
-
-        const merged = mergeGeometries(geometries, false);
-        for (const g of geometries) g.dispose();
-        if (!merged) return;
-
-        merged.computeBoundingBox();
-        const bounds = merged.boundingBox;
-        const minY = bounds?.min.y ?? 0;
-        const rangeY = bounds ? bounds.max.y - bounds.min.y : 1;
-
-        this.outlineMaterial = new THREE.ShaderMaterial({
-          vertexShader: outlineVertex,
-          fragmentShader: outlineFragment,
-          wireframe: true,
+      buildSubject(mainTex, revealTex) {
+        this.subjectMaterial = new THREE.ShaderMaterial({
+          vertexShader: subjectVertex,
+          fragmentShader: buildSubjectFragment(this.samples),
           transparent: true,
           depthWrite: false,
+          side: THREE.DoubleSide,
           uniforms: {
-            uTime: { value: 0 },
-            uPeriod: { value: DEFAULT_PARAMS.outlinePeriod },
-            uStagger: { value: DEFAULT_PARAMS.outlineStagger },
-            uOpacity: { value: DEFAULT_PARAMS.outlineOpacity },
-            uWidth: { value: DEFAULT_PARAMS.outlineWidth },
-            uLightness: { value: DEFAULT_PARAMS.outlineLightness },
-            uBase: { value: DEFAULT_PARAMS.outlineBase },
-            uRevealMix: { value: 0 },
-            uColor: { value: new THREE.Color(readToken("--foreground") || "#ffffff") },
-            uMinY: { value: minY },
-            uRangeY: { value: rangeY },
+            ...this.revealUniforms,
+            uMainTex: { value: mainTex },
+            uRevealTex: { value: revealTex },
+            uParallax: { value: new THREE.Vector2() },
+            uParallaxScale: { value: DEFAULT_PARAMS.subjectParallaxScale },
           },
         });
-
-        const outline = new THREE.Mesh(merged, this.outlineMaterial);
-        outline.renderOrder = 3;
-        outline.visible = this._tier.outline;
-        this.outlineMesh = outline;
-        this.helmetPivot.add(outline);
-      }
-
-      injectRevealMask(material) {
-        const uniforms = this.revealUniforms;
-        if (!uniforms) return;
-        material.onBeforeCompile = (shader) => {
-          Object.assign(shader.uniforms, uniforms);
-          shader.vertexShader = shader.vertexShader
-            .replace("#include <common>", "#include <common>\nvarying vec4 vRevealClip;")
-            .replace("#include <project_vertex>", "#include <project_vertex>\nvRevealClip = gl_Position;");
-          shader.fragmentShader = shader.fragmentShader
-            .replace(
-              "#include <common>",
-              `#include <common>
-               varying vec4 vRevealClip;
-               uniform float uIntro;
-               uniform float uBurnStart;
-               uniform float uBurnSoft;
-               uniform float uBurnGlow;
-               uniform vec3 uBurnColor;
-               ${buildRevealDeclarations(this.samples)}`
-            )
-            .replace(
-              "#include <alphamap_fragment>",
-              `#include <alphamap_fragment>
-               vec2 revealNdc = vRevealClip.xy / vRevealClip.w;
-               float burnFront = smoothstep(uBurnStart, 1.0, uIntro);
-               float burnNoise = texture2D(uNoiseTex, revealNdc * 0.5 + 0.5).r;
-               float burnHeight = 1.0 - (revealNdc.y * 0.5 + 0.5);
-               float burnAt = mix(burnHeight, burnNoise, 0.45);
-               float intact = smoothstep(burnFront - uBurnSoft, burnFront + uBurnSoft, burnAt);
-               float mask = max(revealTrail(revealNdc), intact);
-               diffuseColor.a *= mask * uRevealMix;
-               float burnEdge = 4.0 * intact * (1.0 - intact);
-               diffuseColor.rgb += uBurnColor * burnEdge * uBurnGlow * uRevealMix;`
-            );
-        };
+        const geometry = new THREE.PlaneGeometry(SUBJECT_WIDTH, SUBJECT_HEIGHT);
+        const subject = new THREE.Mesh(geometry, this.subjectMaterial);
+        subject.position.set(0, -0.05, 0);
+        subject.renderOrder = 2;
+        this.subjectMesh = subject;
+        this.subjectGroup.add(subject);
       }
 
       buildBackdrop(noise) {
@@ -3493,46 +3314,45 @@
         const t = (time - this.startTime) / 1000;
         const p = this.params;
 
-        if (this.ready) {
+        if (this.riseStarted) {
           if (this.readyAt === null) this.readyAt = t;
           this.intro = Math.min(1, (t - this.readyAt) / Math.max(p.introDuration, 0.001));
           if (this._tier.freeze) this.intro = 1;
+        } else {
+          this.intro = 0;
         }
 
         // Pointer Lerp
         this.smoothed.x += (this.pointer.x - this.smoothed.x) * p.pointerLerp;
         this.smoothed.y += (this.pointer.y - this.smoothed.y) * p.pointerLerp;
 
-        this.tilt += (swing(this.smoothed.y, p.helmetAmpX, p.helmetCurveX) - this.tilt) * p.pointerLerp;
-        this.yaw += (swing(this.smoothed.x, p.helmetAmpY, p.helmetCurveY) - this.yaw) * p.pointerLerp;
+        this.tilt += (swing(this.smoothed.y, 2.5, 0) - this.tilt) * p.pointerLerp;
+        this.yaw += (swing(this.smoothed.x, 2.1, 0) - this.yaw) * p.pointerLerp;
 
-        this.helmetPivot.rotation.x = this.tilt;
-        this.helmetPivot.rotation.y = this.yaw;
-        this.helmetGroup.position.x = p.helmetX + this.smoothed.x * p.helmetFollow;
-        this.helmetGroup.position.y = p.helmetY - this.smoothed.y * p.helmetFollow * 0.8;
-        this.helmetGroup.position.z = p.helmetZ;
-        this.helmetGroup.scale.setScalar(p.helmetScale);
+        // Subject Group - 2.5D tilt & yaw
+        this.subjectGroup.rotation.x = this.tilt * (p.subjectTilt || 0.12);
+        this.subjectGroup.rotation.y = this.yaw * (p.subjectYaw || 0.18);
 
-        // Subject Group
-        this.subjectGroup.scale.setScalar(p.subjectScale);
+        // Subject Group Scale & Position
+        const currentScale = p.subjectScale * (this.responsiveScale || 1.0);
+        this.subjectGroup.scale.setScalar(currentScale);
+
         let riseOffset = 0;
         if (this.riseStarted) {
           if (this.riseAt === null) this.riseAt = t;
           const u = Math.min(1, (t - this.riseAt) / Math.max(p.riseDuration, 0.001));
           const eased = 1 - (1 - u) * (1 - u);
           const remaining = 1 - eased;
-          const visible = 2 * p.cameraZ * Math.tan((this.camera.fov * Math.PI) / 360);
-          riseOffset = remaining * p.riseDistance * (visible / this.viewportHeight);
+          riseOffset = remaining * (p.riseDistance || 0.6);
         }
         this.subjectGroup.position.x = p.subjectX + this.smoothed.x * p.subjectParallax;
-        this.subjectGroup.position.y = p.subjectY - this.smoothed.y * p.subjectParallax - riseOffset;
+        this.subjectGroup.position.y = p.subjectY + (this.responsiveY || 0.0) - this.smoothed.y * p.subjectParallax - riseOffset;
 
-        // Head Material
-        if (this.headMaterial) {
-          this.headMaterial.uniforms.uParallax.value.set(this.smoothed.x, -this.smoothed.y);
-          this.headMaterial.uniforms.uReveal.value = this.reveal;
-          this.headMaterial.uniforms.uDepthScale.value = p.headParallax;
-          this.headMaterial.uniforms.uRelight.value = p.headRelight;
+        // Subject Material Uniforms
+        if (this.subjectMaterial) {
+          this.subjectMaterial.uniforms.uParallax.value.set(this.smoothed.x, -this.smoothed.y);
+          this.subjectMaterial.uniforms.uRevealMix.value = this.reveal;
+          this.subjectMaterial.uniforms.uIntro.value = this.intro;
         }
 
         // Trail Update
@@ -3587,22 +3407,6 @@
           bg.uWaveAmount.value = p.bgWaveAmount;
           bg.uWaveSpeed.value = p.bgWaveSpeed;
           bg.uRevealOpacity.value = p.bgRevealOpacity;
-        }
-
-        // Outline Mesh
-        if (this.outlineMaterial) {
-          const ot = this.outlineMaterial.uniforms;
-          ot.uTime.value = t;
-          ot.uPeriod.value = p.outlinePeriod;
-          ot.uStagger.value = p.outlineStagger;
-          ot.uOpacity.value = p.outlineOpacity;
-          ot.uWidth.value = p.outlineWidth;
-          ot.uLightness.value = p.outlineLightness;
-          ot.uBase.value = p.outlineBase;
-          const span = Math.max(1 - p.burnStart, 1e-4);
-          const bx = Math.min(1, Math.max(0, (this.intro - p.burnStart) / span));
-          const burnProgress = bx * bx * (3 - 2 * bx);
-          ot.uRevealMix.value = this.reveal * burnProgress;
         }
 
         this.renderer.render(this.scene, this.camera);
@@ -3719,6 +3523,13 @@
         progressSpring.friction = 26;
         progressSpring.setTarget(1.0);
       };
+
+      // Safety fallback: ensure loading veil lifts smoothly within 2.5s even if compilation or an asset takes time
+      setTimeout(() => {
+        if (!sceneReady) {
+          if (scene.onReady) scene.onReady();
+        }
+      }, 2500);
 
       // Page entrance transitions
       const triggerPageEntrance = () => {

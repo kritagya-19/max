@@ -2864,10 +2864,8 @@
 
       uniform sampler2D uMainTex;
       uniform sampler2D uRevealTex;
-      uniform sampler2D uNoiseTex;
       uniform vec2 uParallax;
       uniform float uParallaxScale;
-      uniform float uRevealMix;
       uniform float uIntro;
       uniform float uBurnStart;
       uniform float uBurnSoft;
@@ -2881,10 +2879,6 @@
 
         vec4 mainCol = texture2D(uMainTex, uv);
         vec4 revealCol = texture2D(uRevealTex, uv);
-
-        if (mainCol.a < 0.005 && revealCol.a < 0.005) {
-          discard;
-        }
 
         vec2 revealNdc = vRevealClip.xy / vRevealClip.w;
         float cursorTrail = revealTrail(revealNdc);
@@ -2904,7 +2898,10 @@
         vec4 blended = mix(mainCol, revealCol, revealFactor);
         blended.rgb += uBurnColor * totalEdge * (uBurnGlow * 0.35) * uRevealMix;
 
-        float alpha = mix(mainCol.a, revealCol.a, revealFactor) * uRevealMix;
+        float alpha = mix(mainCol.a, revealCol.a, revealFactor);
+        if (alpha < 0.01) {
+          discard;
+        }
 
         gl_FragColor = vec4(clamp(blended.rgb, 0.0, 1.0), alpha);
         #include <colorspace_fragment>
@@ -2920,7 +2917,7 @@
       subjectParallaxScale: 0.012,
       subjectTilt: 0.12,
       subjectYaw: 0.18,
-      riseDistance: 160,
+      riseDistance: 0.6,
       riseDuration: 2.0,
       trailRadius: 0.50,
       trailIdleScale: 0.28,
@@ -3108,8 +3105,11 @@
             path,
             (t) => {
               if (srgb) t.colorSpace = THREE.SRGBColorSpace;
-              t.minFilter = THREE.LinearMipmapLinearFilter;
-              t.generateMipmaps = true;
+              t.minFilter = THREE.LinearFilter;
+              t.magFilter = THREE.LinearFilter;
+              t.generateMipmaps = false;
+              t.wrapS = THREE.ClampToEdgeWrapping;
+              t.wrapT = THREE.ClampToEdgeWrapping;
               resolve(t);
             },
             undefined,
@@ -3183,6 +3183,7 @@
           fragmentShader: buildSubjectFragment(this.samples),
           transparent: true,
           depthWrite: false,
+          side: THREE.DoubleSide,
           uniforms: {
             ...this.revealUniforms,
             uMainTex: { value: mainTex },
@@ -3194,6 +3195,7 @@
         const geometry = new THREE.PlaneGeometry(SUBJECT_WIDTH, SUBJECT_HEIGHT);
         const subject = new THREE.Mesh(geometry, this.subjectMaterial);
         subject.position.set(0, -0.05, 0);
+        subject.renderOrder = 2;
         this.subjectMesh = subject;
         this.subjectGroup.add(subject);
       }
@@ -3263,8 +3265,7 @@
           const u = Math.min(1, (t - this.riseAt) / Math.max(p.riseDuration, 0.001));
           const eased = 1 - (1 - u) * (1 - u);
           const remaining = 1 - eased;
-          const visible = 2 * p.cameraZ * Math.tan((this.camera.fov * Math.PI) / 360);
-          riseOffset = remaining * p.riseDistance * (visible / this.viewportHeight);
+          riseOffset = remaining * (p.riseDistance || 0.6);
         }
         this.subjectGroup.position.x = p.subjectX + this.smoothed.x * p.subjectParallax;
         this.subjectGroup.position.y = p.subjectY + (this.responsiveY || 0.0) - this.smoothed.y * p.subjectParallax - riseOffset;

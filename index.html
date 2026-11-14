@@ -1221,203 +1221,323 @@
       white-space: nowrap;
     }
 
-    /* 3 — FROM KARTS TO F1 (CAREER TIMELINE) */
+    /* =====================================================================
+       3 — FROM KARTS TO F1 (CINEMATIC SCROLL-DRIVEN TIMELINE)
+       ===================================================================== */
     [data-timeline] {
       container-type: inline-size;
       position: relative;
       z-index: 20;
       background: var(--surface-black);
       color: var(--foreground-on-dark);
-      padding: 6rem 1.5rem;
+      padding: 0;
       overflow: hidden;
     }
-    @media (min-width: 640px) {
-      [data-timeline] {
-        padding: 8rem 2.2222cqw;
-      }
+
+    /* Checkerboard Transition Divider (Formula 1 Chequered Flag) */
+    .timeline-checkerboard-wrap {
+      position: relative;
+      width: 100%;
+      height: 24px;
+      overflow: hidden;
+      z-index: 10;
+      background: #000000;
+    }
+    .timeline-checkerboard-wrap.top {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .timeline-checkerboard-wrap.bottom {
+      margin-top: 4rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .timeline-checkerboard-svg {
+      display: block;
+      width: 100%;
+      height: 24px;
     }
 
-    .timeline-header {
-      text-align: center;
-      margin-bottom: 5rem;
+    /* Editorial Section Title in Top Right */
+    .timeline-intro-header {
+      position: relative;
+      max-width: 1200px;
+      margin: 1rem auto 3rem;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: flex-end;
+      z-index: 5;
     }
-    .timeline-title {
+    .timeline-intro-title {
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: var(--type-display-sm);
-      line-height: var(--raw-leading-95);
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      line-height: 0.95;
       text-transform: uppercase;
-      color: var(--foreground-on-dark);
+      color: var(--accent);
+      letter-spacing: -0.01em;
+      text-align: right;
     }
-    .timeline-subtitle {
-      font-size: var(--type-lead);
-      color: var(--foreground-on-dark-muted);
-      text-transform: uppercase;
-      margin-top: 1rem;
-      letter-spacing: var(--raw-tracking-eyebrow);
+    .timeline-intro-dot {
+      color: var(--accent);
+      margin-left: 3px;
+      font-size: 0.8em;
+      vertical-align: baseline;
     }
 
-    .timeline-container {
+    /* Main Timeline Flow Container */
+    .cinematic-timeline-container {
       position: relative;
-      max-width: 72rem;
+      max-width: 1200px;
       margin: 0 auto;
+      padding: 2rem 1.5rem 8rem;
     }
 
-    /* Central progress rail */
-    .timeline-rail {
+    /* Central Rail & Traveling Light Node */
+    .timeline-center-rail {
       position: absolute;
       top: 0;
       bottom: 0;
       left: 50%;
       width: 1px;
-      background: var(--timeline-rail);
       transform: translateX(-50%);
-      z-index: 1;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .timeline-rail-track {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 1px;
+      background: var(--timeline-rail);
+      opacity: 0.35;
     }
     .timeline-rail-progress {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      background: var(--foreground-on-dark);
+      width: 1px;
       height: 0%;
-      transform-origin: top;
+      background: #ffffff;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.9), 0 0 16px var(--accent);
       will-change: height;
     }
-    .timeline-rotator-marker {
+    .timeline-traveling-node {
       position: absolute;
-      top: 0;
+      top: 0%;
       left: 50%;
-      width: 14px;
-      height: 14px;
-      background: var(--accent);
-      border: 2px solid var(--surface-black);
-      transform: translate(-50%, -50%) rotate(0deg);
-      z-index: 3;
-      will-change: transform, top;
+      width: 8px;
+      height: 8px;
+      background: #ffffff;
+      border: 1px solid var(--accent);
+      box-shadow: 0 0 10px #ffffff, 0 0 18px var(--accent);
+      transform: translate(-50%, -50%) rotate(45deg);
+      z-index: 6;
+      will-change: top, transform;
     }
 
-    .timeline-row {
+    /* Milestone Row Group */
+    .timeline-milestone {
       position: relative;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      margin-bottom: 3.5rem;
-      z-index: 2;
-      transition: opacity var(--raw-duration-normal) var(--ease-entrance);
-    }
-    .timeline-container:hover .timeline-row {
-      opacity: 0.35;
-    }
-    .timeline-container:hover .timeline-row:hover {
-      opacity: 1;
-    }
-    .timeline-row:last-child {
-      margin-bottom: 0;
-    }
-    @media (max-width: 767px) {
-      .timeline-rail {
-        left: 1.5rem;
-      }
-      .timeline-rotator-marker {
-        left: 1.5rem;
-      }
-      .timeline-row {
-        grid-template-columns: 1fr;
-        padding-left: 3rem;
-        gap: 1rem;
-      }
-    }
-
-    .timeline-card {
-      position: relative;
-      background: var(--timeline-fill);
-      border: 1px solid var(--timeline-outline);
-      padding: 1.5rem;
-      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
-      transition: transform var(--raw-duration-normal) var(--ease-entrance), border-color var(--raw-duration-fast);
+      margin: 14rem 0;
+      min-height: 380px;
       display: flex;
-      flex-direction: column;
-      gap: 1rem;
+      align-items: center;
+      justify-content: center;
+      z-index: 4;
     }
-    .timeline-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--accent);
+    .timeline-milestone:first-of-type {
+      margin-top: 3rem;
     }
-
-    .timeline-row.left .timeline-card {
-      grid-column: 1;
-    }
-    .timeline-row.right .timeline-card {
-      grid-column: 2;
-    }
-    @media (max-width: 767px) {
-      .timeline-row.left .timeline-card,
-      .timeline-row.right .timeline-card {
-        grid-column: 1;
-      }
+    .timeline-milestone:last-of-type {
+      margin-bottom: 4rem;
     }
 
-    /* Milestone Photo Frame */
-    .timeline-photo-frame {
+    /* Featured Card Wrapper */
+    .milestone-featured-wrap {
       position: relative;
       width: 100%;
-      height: 200px;
-      overflow: hidden;
-      border: 1px solid var(--border-on-dark);
-      background: var(--surface-dark);
+      max-width: 580px;
+      z-index: 4;
     }
-    .timeline-photo {
+    .milestone-plate.featured-card {
+      width: 100%;
+      background: var(--surface-dark);
+      border: 1px solid var(--timeline-outline);
+      border-radius: 12px;
+      padding: 8px;
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.85);
+      transition: border-color 0.4s ease;
+      will-change: transform, opacity, filter;
+    }
+    .plate-image-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 552 / 340;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #020512;
+    }
+    .milestone-photo {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: grayscale(25%) contrast(1.1);
-      transition: transform 500ms var(--ease-entrance), filter 300ms ease;
-    }
-    .timeline-card:hover .timeline-photo {
-      transform: scale(1.05);
-      filter: grayscale(0%) contrast(1.15);
+      display: block;
     }
 
-    .timeline-year {
+    /* Active Year Centered Over Image */
+    .milestone-active-year {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: var(--type-year);
-      line-height: var(--raw-leading-95);
+      font-size: clamp(2.4rem, 4vw, 3.6rem);
+      line-height: 1;
       color: var(--accent);
-      margin-bottom: 0.25rem;
-      opacity: 0.4;
-      transition: opacity var(--raw-duration-normal);
-    }
-    .timeline-row:hover .timeline-year {
-      opacity: 1;
+      text-shadow: 0 0 24px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.9), 0 0 16px var(--accent-muted);
+      letter-spacing: 0.04em;
+      pointer-events: none;
+      z-index: 6;
+      will-change: transform, opacity, color;
+      transition: color 0.3s ease;
     }
 
-    .timeline-card-title {
-      font-size: var(--type-lead);
-      font-weight: 700;
-      text-transform: uppercase;
-      line-height: var(--raw-leading-95);
-      margin-bottom: 0.5rem;
-      color: var(--foreground-on-dark);
-    }
-    .timeline-card-desc {
-      font-size: var(--type-body);
-      line-height: 1.35;
+    /* Description Beside Featured Image */
+    .milestone-desc {
+      position: absolute;
+      left: calc(100% + 2rem);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 260px;
+      font-family: var(--font-sans);
+      font-size: 0.8125rem;
+      line-height: 1.45;
+      letter-spacing: -0.01em;
       text-transform: uppercase;
       color: var(--foreground-on-dark-muted);
+      pointer-events: none;
+      z-index: 4;
+      will-change: transform, opacity;
     }
-    .timeline-badge {
-      display: inline-block;
-      margin-top: auto;
-      font-size: var(--type-eyebrow);
+    .milestone-desc .desc-lead {
+      color: var(--foreground-on-dark);
       font-weight: 700;
-      text-transform: uppercase;
-      padding: 0.25rem 0.6rem;
-      background: var(--border-on-dark);
+    }
+
+    /* Secondary Cards (Depth & Parallax) */
+    .milestone-secondary-wrap {
+      position: absolute;
+      width: 270px;
+      z-index: 3;
+      will-change: transform;
+    }
+    .milestone-secondary-wrap.side-right {
+      right: -4%;
+      top: 60%;
+    }
+    .milestone-secondary-wrap.side-left {
+      left: -4%;
+      top: 60%;
+    }
+    .milestone-plate.secondary-card {
+      width: 100%;
+      background: var(--surface-dark);
+      border: 1px solid var(--timeline-outline);
+      border-radius: 10px;
+      padding: 6px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75);
+      will-change: opacity, filter;
+    }
+    .milestone-plate.secondary-card .plate-image-frame {
+      aspect-ratio: 16 / 10;
+    }
+
+    /* Intermediate Milestone Year Along Center Rail */
+    .timeline-center-year {
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      width: fit-content;
+      margin: 8rem auto;
+      padding: 0.25rem 0.75rem;
+      background: var(--surface-black);
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--accent-muted);
+      letter-spacing: 0.02em;
+      z-index: 3;
+      transition: color 0.35s ease, transform 0.35s ease, text-shadow 0.35s ease;
+      will-change: color, transform;
+    }
+    .timeline-center-year.is-active {
       color: var(--accent);
-      border-left: 2px solid var(--accent);
-      align-self: flex-start;
+      text-shadow: 0 0 16px var(--accent);
+      transform: translateX(-50%) scale(1.12);
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 1024px) {
+      .milestone-desc {
+        position: static;
+        transform: none;
+        width: 100%;
+        margin-top: 1.25rem;
+        text-align: left;
+      }
+      .milestone-secondary-wrap.side-right {
+        right: 0;
+        top: auto;
+        bottom: -130px;
+        width: 210px;
+      }
+      .milestone-secondary-wrap.side-left {
+        left: 0;
+        top: auto;
+        bottom: -130px;
+        width: 210px;
+      }
+      .timeline-milestone {
+        margin: 11rem 0;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .timeline-intro-header {
+        justify-content: flex-start;
+        padding: 0 1.5rem;
+      }
+      .timeline-intro-title {
+        text-align: left;
+      }
+      .timeline-center-rail {
+        left: 1.5rem;
+      }
+      .timeline-center-year {
+        left: 1.5rem;
+        transform: translateX(-50%);
+      }
+      .timeline-center-year.is-active {
+        transform: translateX(-50%) scale(1.12);
+      }
+      .timeline-milestone {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 3rem;
+        margin: 9rem 0;
+      }
+      .milestone-featured-wrap {
+        max-width: 100%;
+      }
+      .milestone-secondary-wrap.side-right,
+      .milestone-secondary-wrap.side-left {
+        position: static;
+        margin-top: 1.5rem;
+        width: 220px;
+        align-self: flex-end;
+      }
     }
 
     /* 4 — FROM THE PADDOCK */
@@ -2076,103 +2196,161 @@
       <div class="pinned-shade" id="season-shade"></div>
     </section>
 
-    <!-- 3 — FROM KARTS TO F1 (CAREER TIMELINE) -->
-    <section data-timeline id="timeline-section">
-      <div class="timeline-header">
-        <h2 class="timeline-title">From Karts To F1</h2>
-        <p class="timeline-subtitle">The Progression of Andrea Kimi Antonelli</p>
+    <!-- 3 — FROM KARTS TO F1 (CINEMATIC SCROLL-DRIVEN TIMELINE) -->
+    <section data-timeline id="timeline-section" class="cinematic-timeline">
+      <!-- Upper Section Transition Divider: Chequered Flag Pattern -->
+      <div class="timeline-checkerboard-wrap top" aria-hidden="true">
+        <svg class="timeline-checkerboard-svg" width="100%" height="24" viewBox="0 0 1200 24" preserveAspectRatio="none">
+          <defs>
+            <pattern id="checkerboard-pattern-top" width="24" height="24" patternUnits="userSpaceOnUse">
+              <rect x="0" y="0" width="12" height="12" fill="#ffffff" />
+              <rect x="12" y="0" width="12" height="12" fill="#000000" />
+              <rect x="0" y="12" width="12" height="12" fill="#000000" />
+              <rect x="12" y="12" width="12" height="12" fill="#ffffff" />
+            </pattern>
+          </defs>
+          <rect x="0" y="0" width="1200" height="24" fill="url(#checkerboard-pattern-top)" />
+          <rect x="360" y="0" width="12" height="12" fill="var(--accent)" />
+          <rect x="588" y="12" width="12" height="12" fill="var(--accent)" />
+          <rect x="816" y="12" width="12" height="12" fill="var(--accent)" />
+          <rect x="1056" y="0" width="12" height="12" fill="var(--accent)" />
+          <rect x="1152" y="12" width="12" height="12" fill="var(--accent)" />
+        </svg>
       </div>
 
-      <div class="timeline-container" id="timeline-container">
-        <div class="timeline-rail">
-          <div class="timeline-rail-progress" id="timeline-rail-fill"></div>
-        </div>
-        <div class="timeline-rotator-marker" id="timeline-marker"></div>
+      <!-- Section Title in Top Right -->
+      <div class="timeline-intro-header">
+        <h2 class="timeline-intro-title">
+          FROM KARTS<br>TO F1<span class="timeline-intro-dot">■</span>
+        </h2>
+      </div>
 
-        <!-- 7 Career Milestones with Authentic Photographs -->
-        <div class="timeline-row left" data-timeline-row>
-          <div class="timeline-card">
-            <div class="timeline-photo-frame">
-              <img src="./assets/timeline/timeline-2014.jpg" alt="2014 Karting Debut" class="timeline-photo" loading="lazy">
+      <!-- Main Timeline Flow Container -->
+      <div class="cinematic-timeline-container" id="timeline-container">
+        <!-- Central Line & Traveling Node -->
+        <div class="timeline-center-rail" aria-hidden="true">
+          <div class="timeline-rail-track"></div>
+          <div class="timeline-rail-progress" id="timeline-rail-progress"></div>
+          <div class="timeline-traveling-node" id="timeline-traveling-node"></div>
+        </div>
+
+        <!-- Milestone 1: 2012 -->
+        <div class="timeline-milestone" data-milestone="2012">
+          <div class="milestone-featured-wrap">
+            <div class="milestone-plate featured-card">
+              <div class="plate-image-frame">
+                <img src="./assets/timeline/timeline-2012-featured.jpg" alt="2012 Karting Debut" class="milestone-photo" loading="lazy">
+              </div>
+              <div class="milestone-active-year">2012</div>
             </div>
-            <div class="timeline-year">2014</div>
-            <div class="timeline-card-title">Karting Debut</div>
-            <div class="timeline-card-desc">Campione Italiano ACI Karting. First national championship titles in Easykart and 60 Mini.</div>
-            <span class="timeline-badge">ACI Karting Champion</span>
+            <div class="milestone-desc">
+              <span class="desc-lead">THE FIRST KART.</span> AT SIX, KIMI DISCOVERED KARTING — TURNING A CHILDHOOD CURIOSITY INTO SOMETHING OF HIS OWN.
+            </div>
+          </div>
+          <!-- Secondary Image Offset Right -->
+          <div class="milestone-secondary-wrap side-right">
+            <div class="milestone-plate secondary-card">
+              <div class="plate-image-frame">
+                <img src="./assets/timeline/timeline-2012-secondary.jpg" alt="Trofeo Easykart Trophy" class="milestone-photo" loading="lazy">
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="timeline-row right" data-timeline-row>
-          <div class="timeline-card">
-            <div class="timeline-photo-frame">
-              <img src="./assets/timeline/timeline-2019.jpg" alt="2019 OK Junior Dominance" class="timeline-photo" loading="lazy">
+        <!-- Intermediate Milestone Year: 2015 -->
+        <div class="timeline-center-year" data-center-year="2015">
+          <span>2015</span>
+        </div>
+
+        <!-- Milestone 2: 2019 -->
+        <div class="timeline-milestone" data-milestone="2019">
+          <!-- Secondary Image Offset Left -->
+          <div class="milestone-secondary-wrap side-left">
+            <div class="milestone-plate secondary-card">
+              <div class="plate-image-frame">
+                <img src="./assets/timeline/timeline-2019-secondary.jpg" alt="Prema Racing Paddock" class="milestone-photo" loading="lazy">
+              </div>
             </div>
-            <div class="timeline-year">2019</div>
-            <div class="timeline-card-title">OK Junior Dominance</div>
-            <div class="timeline-card-desc">WSK Euro Series & Super Master Series Champion. Dominating international junior karting ranks.</div>
-            <span class="timeline-badge">WSK Euro Series</span>
+          </div>
+          <div class="milestone-featured-wrap">
+            <div class="milestone-plate featured-card">
+              <div class="plate-image-frame">
+                <img src="./assets/timeline/timeline-2019-featured.jpg" alt="Signing Mercedes Junior Team Contract" class="milestone-photo" loading="lazy">
+              </div>
+              <div class="milestone-active-year">2019</div>
+            </div>
+            <div class="milestone-desc">
+              <span class="desc-lead">FINDING HIS PEOPLE.</span> KIMI JOINED THE MERCEDES JUNIOR PROGRAMME, MARKING HIS FIRST MAJOR STEP INTO PROFESSIONAL MOTORSPORT.
+            </div>
           </div>
         </div>
 
-        <div class="timeline-row left" data-timeline-row>
-          <div class="timeline-card">
-            <div class="timeline-photo-frame">
-              <img src="./assets/timeline/timeline-2021.jpg" alt="2021 European Champion & Mercedes Junior Team" class="timeline-photo" loading="lazy">
+        <!-- Intermediate Milestone Year: 2021 -->
+        <div class="timeline-center-year" data-center-year="2021">
+          <span>2021</span>
+        </div>
+
+        <!-- Milestone 3: 2024 -->
+        <div class="timeline-milestone" data-milestone="2024">
+          <div class="milestone-featured-wrap">
+            <div class="milestone-plate featured-card">
+              <div class="plate-image-frame">
+                <img src="./assets/timeline/timeline-2024-featured.jpg" alt="2024 FIA Formula 2 & Mercedes Confirmation" class="milestone-photo" loading="lazy">
+              </div>
+              <div class="milestone-active-year">2024</div>
             </div>
-            <div class="timeline-year">2021</div>
-            <div class="timeline-card-title">European Champion & Mercedes F1</div>
-            <div class="timeline-card-desc">CIK-FIA European Championship OK Title & induction into the Mercedes-AMG Junior Driver Programme.</div>
-            <span class="timeline-badge">FIA European Champion</span>
+            <div class="milestone-desc">
+              <span class="desc-lead">THE YEAR EVERYTHING CHANGED.</span> FORMULA 2 BROUGHT KIMI CLOSER TO F1, WHILE MERCEDES CONFIRMED HIM AS THEIR FUTURE RACE DRIVER.
+            </div>
+          </div>
+          <!-- Secondary Image Offset Right -->
+          <div class="milestone-secondary-wrap side-right">
+            <div class="milestone-plate secondary-card">
+              <div class="plate-image-frame">
+                <img src="./assets/timeline/timeline-2024-secondary.jpg" alt="Mercedes Garage Paddock" class="milestone-photo" loading="lazy">
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="timeline-row right" data-timeline-row>
-          <div class="timeline-card">
-            <div class="timeline-photo-frame">
-              <img src="./assets/timeline/timeline-2022.jpg" alt="2022 Dual F4 Titles" class="timeline-photo" loading="lazy">
-            </div>
-            <div class="timeline-year">2022</div>
-            <div class="timeline-card-title">Dual Formula 4 Titles</div>
-            <div class="timeline-card-desc">Italian F4 & ADAC Formula 4 Champion with Prema Racing, claiming an unprecedented 24 victories.</div>
-            <span class="timeline-badge">Italian & ADAC F4</span>
-          </div>
+        <!-- Intermediate Milestone Year: 2025 -->
+        <div class="timeline-center-year" data-center-year="2025">
+          <span>2025</span>
         </div>
 
-        <div class="timeline-row left" data-timeline-row>
-          <div class="timeline-card">
-            <div class="timeline-photo-frame">
-              <img src="./assets/timeline/timeline-2023.jpg" alt="2023 FRECA Champion" class="timeline-photo" loading="lazy">
+        <!-- Milestone 4: 2026 -->
+        <div class="timeline-milestone" data-milestone="2026">
+          <div class="milestone-featured-wrap">
+            <div class="milestone-plate featured-card">
+              <div class="plate-image-frame">
+                <img src="./assets/timeline/timeline-2026-featured.jpg" alt="2026 Mercedes-AMG F1 Driver" class="milestone-photo" loading="lazy">
+              </div>
+              <div class="milestone-active-year">2026</div>
             </div>
-            <div class="timeline-year">2023</div>
-            <div class="timeline-card-title">FRECA Championship Crown</div>
-            <div class="timeline-card-desc">Formula Regional European Championship by Alpine Champion with 5 wins and 11 podiums in rookie year.</div>
-            <span class="timeline-badge">FRECA Champion</span>
+            <div class="milestone-desc">
+              <span class="desc-lead">FROM KARTS TO F1.</span> KIMI IS NOW RACING AT THE HIGHEST LEVEL, WITH BOLOGNA STILL HIS ANCHOR — FAMILY, HOME AND LIFE BEYOND RACING.
+            </div>
           </div>
         </div>
+      </div>
 
-        <div class="timeline-row right" data-timeline-row>
-          <div class="timeline-card">
-            <div class="timeline-photo-frame">
-              <img src="./assets/timeline/timeline-2024.jpg" alt="2024 FIA Formula 2 Victories" class="timeline-photo" loading="lazy">
-            </div>
-            <div class="timeline-year">2024</div>
-            <div class="timeline-card-title">FIA Formula 2 Victories</div>
-            <div class="timeline-card-desc">Direct leap into Formula 2 with Prema Racing. Sensational Feature Race wins at Silverstone and Hungaroring.</div>
-            <span class="timeline-badge">F2 Feature Winner</span>
-          </div>
-        </div>
-
-        <div class="timeline-row left" data-timeline-row>
-          <div class="timeline-card">
-            <div class="timeline-photo-frame">
-              <img src="./assets/timeline/timeline-2026.jpg" alt="2026 Mercedes-AMG F1 Driver" class="timeline-photo" loading="lazy">
-            </div>
-            <div class="timeline-year">2026</div>
-            <div class="timeline-card-title">Mercedes-AMG F1 Driver</div>
-            <div class="timeline-card-desc">Official debut season with Mercedes-AMG Petronas Formula One Team alongside George Russell.</div>
-            <span class="timeline-badge">Driver_012 • F1</span>
-          </div>
-        </div>
+      <!-- Bottom Section Transition Divider: Chequered Flag Pattern -->
+      <div class="timeline-checkerboard-wrap bottom" aria-hidden="true">
+        <svg class="timeline-checkerboard-svg" width="100%" height="24" viewBox="0 0 1200 24" preserveAspectRatio="none">
+          <defs>
+            <pattern id="checkerboard-pattern-bottom" width="24" height="24" patternUnits="userSpaceOnUse">
+              <rect x="0" y="0" width="12" height="12" fill="#ffffff" />
+              <rect x="12" y="0" width="12" height="12" fill="#000000" />
+              <rect x="0" y="12" width="12" height="12" fill="#000000" />
+              <rect x="12" y="12" width="12" height="12" fill="#ffffff" />
+            </pattern>
+          </defs>
+          <rect x="0" y="0" width="1200" height="24" fill="url(#checkerboard-pattern-bottom)" />
+          <rect x="240" y="12" width="12" height="12" fill="var(--accent)" />
+          <rect x="480" y="0" width="12" height="12" fill="var(--accent)" />
+          <rect x="720" y="12" width="12" height="12" fill="var(--accent)" />
+          <rect x="960" y="0" width="12" height="12" fill="var(--accent)" />
+        </svg>
       </div>
     </section>
 
@@ -4200,48 +4378,117 @@
     /* =====================================================================
        CAREER TIMELINE CONTROLLER
        ===================================================================== */
+    /* =====================================================================
+       CINEMATIC SCROLL-DRIVEN TIMELINE CONTROLLER
+       ===================================================================== */
     const initTimeline = () => {
       const section = document.getElementById('timeline-section');
-      const railFill = document.getElementById('timeline-rail-fill');
-      const marker = document.getElementById('timeline-marker');
-      const rows = document.querySelectorAll('[data-timeline-row]');
+      if (!section) return;
+
+      const container = document.getElementById('timeline-container');
+      const railProgress = document.getElementById('timeline-rail-progress');
+      const railNode = document.getElementById('timeline-traveling-node');
+      const milestones = section.querySelectorAll('.timeline-milestone');
+      const centerYears = section.querySelectorAll('.timeline-center-year');
 
       const updateTimeline = () => {
-        const rect = section.getBoundingClientRect();
-        const vh = window.innerHeight;
-        const total = rect.height - vh;
-        const current = -rect.top;
-        const progress = Math.min(1, Math.max(0, current / Math.max(total, 1)));
+        const vh = window.innerHeight || 1;
+        const vCenter = vh * 0.5;
 
-        if (railFill) railFill.style.height = (progress * 100) + '%';
-        if (marker) {
-          marker.style.top = (progress * 100) + '%';
-          marker.style.transform = `translate(-50%, -50%) rotate(${progress * 1800}deg)`;
+        // 1. Central Line & Traveling Node Scroll Progression
+        if (container && railProgress && railNode) {
+          const cRect = container.getBoundingClientRect();
+          const cTotal = cRect.height - vh * 0.4;
+          const cStart = -cRect.top + vCenter;
+          const progress = Math.min(1, Math.max(0, cStart / Math.max(cTotal, 1)));
+
+          railProgress.style.height = `${(progress * 100).toFixed(2)}%`;
+          railNode.style.top = `${(progress * 100).toFixed(2)}%`;
         }
-      };
 
-      subscribe(() => updateTimeline(), () => 16);
+        // 2. Cinematic Per-Milestone Scroll Transition
+        milestones.forEach((ms) => {
+          const featuredCard = ms.querySelector('.milestone-plate.featured-card');
+          const activeYear = ms.querySelector('.milestone-active-year');
+          const desc = ms.querySelector('.milestone-desc');
+          const secondaryWrap = ms.querySelector('.milestone-secondary-wrap');
 
-      const rowObserver = new IntersectionObserver((entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            const card = entry.target.querySelector('.timeline-card');
-            const year = entry.target.querySelector('.timeline-year');
-            if (card) {
-              card.style.opacity = '1';
-              card.style.transform = 'translateY(0)';
-            }
-            if (year) {
-              year.style.opacity = '1';
-              setTimeout(() => {
-                year.style.opacity = '0.4';
-              }, 600);
+          if (!featuredCard) return;
+
+          const rect = featuredCard.getBoundingClientRect();
+          const cardCenter = rect.top + rect.height / 2;
+          const dist = cardCenter - vCenter;
+          const norm = dist / (vh * 0.45); // 0 at center, -1 above, +1 below
+
+          // Focus intensity: 1 at center, drops off as card moves away
+          const absNorm = Math.abs(norm);
+          const activeBand = 0.5;
+          const focus = Math.max(0, 1 - absNorm / activeBand);
+
+          // Smooth positional transition, opacity, and darkness
+          // As card moves upwards (norm < 0): becomes darker and less visible
+          const opacity = Math.min(1, Math.max(0.2, 0.2 + 0.8 * focus));
+          const brightness = Math.min(1.05, Math.max(0.3, 0.3 + 0.7 * focus));
+          const contrast = Math.min(1.15, Math.max(0.9, 0.9 + 0.2 * focus));
+          const scale = 0.95 + 0.05 * focus;
+          const yShift = norm * -8;
+
+          featuredCard.style.opacity = opacity.toFixed(3);
+          featuredCard.style.filter = `brightness(${brightness.toFixed(2)}) contrast(${contrast.toFixed(2)})`;
+          featuredCard.style.transform = `scale(${scale.toFixed(3)}) translateY(${yShift.toFixed(1)}px)`;
+
+          // Active Year transitions into bright accent color at center
+          if (activeYear) {
+            if (focus > 0.3) {
+              activeYear.style.color = 'var(--accent)';
+              activeYear.style.opacity = Math.min(1, 0.3 + 0.7 * focus).toFixed(2);
+              activeYear.style.transform = `translate(-50%, -50%) scale(${(0.92 + 0.08 * focus).toFixed(3)})`;
+              activeYear.style.textShadow = '0 0 24px rgba(0, 0, 0, 0.95), 0 0 16px var(--accent-muted)';
+            } else {
+              activeYear.style.color = 'var(--accent-muted)';
+              activeYear.style.opacity = '0.35';
+              activeYear.style.transform = 'translate(-50%, -50%) scale(0.92)';
+              activeYear.style.textShadow = '0 0 16px rgba(0, 0, 0, 0.9)';
             }
           }
-        }
-      }, { rootMargin: '0% 0% -25% 0%' });
 
-      rows.forEach(r => rowObserver.observe(r));
+          // Descriptions subtle opacity and movement transition
+          if (desc) {
+            desc.style.opacity = Math.min(1, 0.2 + 0.8 * focus).toFixed(2);
+            if (window.innerWidth > 1024) {
+              desc.style.transform = `translateY(calc(-50% + ${(norm * -14).toFixed(1)}px))`;
+            } else {
+              desc.style.transform = 'none';
+            }
+          }
+
+          // Secondary Image Depth & Parallax
+          if (secondaryWrap) {
+            const secPlate = secondaryWrap.querySelector('.milestone-plate.secondary-card');
+            const secParallax = norm * 26;
+            secondaryWrap.style.transform = `translateY(${secParallax.toFixed(1)}px)`;
+            if (secPlate) {
+              secPlate.style.opacity = Math.min(1, 0.25 + 0.75 * focus).toFixed(2);
+              secPlate.style.filter = `brightness(${brightness.toFixed(2)}) contrast(${contrast.toFixed(2)})`;
+            }
+          }
+        });
+
+        // 3. Intermediate Milestone Years Along Central Rail (2015, 2021, 2025)
+        centerYears.forEach((cy) => {
+          const rect = cy.getBoundingClientRect();
+          const cyCenter = rect.top + rect.height / 2;
+          const cyDist = Math.abs(cyCenter - vCenter);
+          if (cyDist < vh * 0.25) {
+            cy.classList.add('is-active');
+          } else {
+            cy.classList.remove('is-active');
+          }
+        });
+      };
+
+      subscribe(() => updateTimeline(), () => 0);
+      updateTimeline();
     };
 
     /* =====================================================================

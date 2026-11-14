@@ -28,28 +28,37 @@
     }
 
     :root {
+      /* =====================================================
+         RED BULL F1 COLOR THEME
+         Primary:  Cobalt Blue  #0D1E78
+         Accent:   Red          #FF1744
+         Accent2:  Yellow       #FFC600
+         Neutral:  Silver       #C0C0C0
+         ===================================================== */
+
       /* Tier 1 Tokens */
-      --raw-color-ice-50: #f7fafb;        /* frame fill */
-      --raw-color-ice-100: #ebeef1;       /* backdrop contour lines */
-      --raw-color-ice-200: #dfe5e9;       /* hairlines & dividers */
-      --raw-color-steel-400: #b6c1c8;     /* muted copy on dark */
-      --raw-color-ink-950: #090a0b;       /* all body copy */
-      --raw-color-ink-900: #0e0f14;       /* "view profile" panel fill */
-      --raw-color-ink-800: #1b1d24;
-      --raw-color-ink-700: #2a2d36;
-      --raw-color-ink-alpha-35: rgb(9 10 11 / 0.35);   /* driver_012, 01:26 */
-      --raw-color-slate-500: #7a7a7a;     /* season map: the halftone */
-      --raw-color-slate-600: #4d4d4d;     /* season map: grid lines, inner ring */
-      --raw-color-slate-900: #1e1e1e;     /* season map: the two outer rings */
-      --raw-color-cyan-400: #02d2e3;      /* accent */
-      --raw-color-cyan-alpha-25: rgb(2 210 227 / 0.25);
-      --raw-color-stone-600: #535450;     /* timeline: plate outline */
-      --raw-color-white-alpha-10: rgb(255 255 255 / 0.1);  /* timeline plate fill; footer contours */
-      --raw-color-white-alpha-20: rgb(255 255 255 / 0.2);  /* timeline: the rail */
-      --raw-color-ink-alpha-08: rgb(9 10 11 / 0.08);       /* paddock: the contour lines */
-      --raw-color-white-alpha-40: rgb(255 255 255 / 0.4);  /* footer: the copyright */
+      /* Light surfaces → replaced with RB navy tints */
+      --raw-color-ice-50: #0a1240;        /* frame fill — deep RB navy */
+      --raw-color-ice-100: #0d1860;       /* backdrop contour lines */
+      --raw-color-ice-200: #152080;       /* hairlines & dividers */
+      --raw-color-steel-400: #8899cc;     /* muted copy on dark */
+      --raw-color-ink-950: #ffffff;       /* all body copy (inverted for dark bg) */
+      --raw-color-ink-900: #060e35;       /* "view profile" panel fill */
+      --raw-color-ink-800: #0a1550;
+      --raw-color-ink-700: #0d1e78;       /* RB Cobalt Blue */
+      --raw-color-ink-alpha-35: rgb(255 255 255 / 0.35);
+      --raw-color-slate-500: #4466bb;     /* season map: the halftone */
+      --raw-color-slate-600: #2244aa;     /* season map: grid lines, inner ring */
+      --raw-color-slate-900: #060e30;     /* season map: the two outer rings */
+      --raw-color-cyan-400: #FF1744;      /* accent → RB Red */
+      --raw-color-cyan-alpha-25: rgb(255 23 68 / 0.25);
+      --raw-color-stone-600: #2244aa;     /* timeline: plate outline */
+      --raw-color-white-alpha-10: rgb(255 255 255 / 0.08);
+      --raw-color-white-alpha-20: rgb(255 255 255 / 0.18);
+      --raw-color-ink-alpha-08: rgb(13 30 120 / 0.25);    /* paddock: the contour lines */
+      --raw-color-white-alpha-40: rgb(255 255 255 / 0.4);
       --raw-color-white: #ffffff;
-      --raw-color-orange-500: #ff6b00;
+      --raw-color-orange-500: #FFC600;    /* RB Yellow */
 
       --raw-font-size-96: 6rem;      /* "kimi antonelli" */
       --raw-font-size-70: 4.375rem;  /* the name on phones */
@@ -80,13 +89,13 @@
       --raw-edge-fade-share: 10%;
       --raw-edge-fade-length: 6rem;
 
-      /* Tier 2 — roles */
-      --background: var(--raw-color-ice-50);
-      --foreground: var(--raw-color-ink-950);
+      /* Tier 2 — roles (Red Bull F1 Theme) */
+      --background: var(--raw-color-ice-50);           /* deep RB navy */
+      --foreground: var(--raw-color-white);             /* white text on dark bg */
       --foreground-muted: var(--raw-color-ink-alpha-35);
-      --surface-dark: var(--raw-color-ink-900);
+      --surface-dark: var(--raw-color-ink-900);         /* darkest navy */
       --surface-dark-raised: var(--raw-color-ink-800);
-      --surface-black: var(--raw-color-ink-950);
+      --surface-black: #04091f;                         /* near-black navy */
       --surface-muted: var(--raw-color-ice-100);
       --surface-soft: var(--raw-color-ice-200);
       --foreground-on-dark: var(--raw-color-white);
@@ -103,7 +112,7 @@
       --timeline-rail: var(--raw-color-white-alpha-20);
       --paddock-contour: var(--raw-color-ink-alpha-08);
       --footer-contour: var(--raw-color-white-alpha-10);
-      --accent: var(--raw-color-cyan-400);
+      --accent: var(--raw-color-cyan-400);              /* RB Red #FF1744 */
       --accent-muted: var(--raw-color-cyan-alpha-25);
       --type-impact: var(--raw-font-size-96);
       --type-display-lg: var(--raw-font-size-70);
@@ -1913,7 +1922,7 @@
             <!-- Profile CTA Frame -->
             <a href="/driver/kimi-antonelli" class="profile-cta-btn">
               <svg class="profile-cta-svg" viewBox="0 0 220 50" preserveAspectRatio="none">
-                <path class="profile-cta-body" d="M220 42L212.932 50H0V0H220V42Z" fill="#0E0F14" />
+                <path class="profile-cta-body" d="M220 42L212.932 50H0V0H220V42Z" fill="#0D1E78" />
                 <path class="profile-cta-flood" d="M220 42L212.932 50H0V0H220V42Z" fill="var(--accent)" />
                 <path class="profile-cta-ring" d="M220 42L212.932 50H0V0H220V42Z" fill="none" stroke="var(--accent)" stroke-opacity="0.25" />
                 <path class="profile-cta-brackets" d="M205 49.5H213L219.5 42V36 M212 0.5H219.5V7 M8 0.5H0.5V7 M7.5 49.5H0.5V42.5" fill="none" stroke="var(--accent)" />
@@ -2191,7 +2200,7 @@
           <div class="paddock-btn-wrap">
             <a href="/journal/belgian-gp-debrief" class="profile-cta-btn">
               <svg class="profile-cta-svg" viewBox="0 0 220 50" preserveAspectRatio="none">
-                <path class="profile-cta-body" d="M220 42L212.932 50H0V0H220V42Z" fill="#0E0F14" />
+                <path class="profile-cta-body" d="M220 42L212.932 50H0V0H220V42Z" fill="#0D1E78" />
                 <path class="profile-cta-flood" d="M220 42L212.932 50H0V0H220V42Z" fill="var(--accent)" />
                 <path class="profile-cta-ring" d="M220 42L212.932 50H0V0H220V42Z" fill="none" stroke="var(--accent)" stroke-opacity="0.25" />
                 <path class="profile-cta-brackets" d="M205 49.5H213L219.5 42V36 M212 0.5H219.5V7 M8 0.5H0.5V7 M7.5 49.5H0.5V42.5" fill="none" stroke="var(--accent)" />
@@ -3071,7 +3080,7 @@
           uBurnStart: { value: DEFAULT_PARAMS.burnStart },
           uBurnSoft: { value: DEFAULT_PARAMS.burnSoftness },
           uBurnGlow: { value: DEFAULT_PARAMS.burnGlow },
-          uBurnColor: { value: new THREE.Color(readToken("--accent") || "#02d2e3") },
+          uBurnColor: { value: new THREE.Color(readToken("--accent") || "#FF1744") },
         };
 
         root.traverse((object) => {
@@ -3138,7 +3147,7 @@
             uLightness: { value: DEFAULT_PARAMS.outlineLightness },
             uBase: { value: DEFAULT_PARAMS.outlineBase },
             uRevealMix: { value: 0 },
-            uColor: { value: new THREE.Color(readToken("--foreground") || "#090a0b") },
+            uColor: { value: new THREE.Color(readToken("--foreground") || "#ffffff") },
             uMinY: { value: minY },
             uRangeY: { value: rangeY },
           },
@@ -3198,8 +3207,8 @@
           uniforms: {
             ...uniforms,
             uNoiseTex: { value: noise },
-            uBackground: { value: new THREE.Color(readToken("--background") || "#f7fafb") },
-            uLineColor: { value: new THREE.Color(readToken("--surface-soft") || "#dfe5e9") },
+            uBackground: { value: new THREE.Color(readToken("--background") || "#0a1240") },
+            uLineColor: { value: new THREE.Color(readToken("--surface-soft") || "#152080") },
             uRevealColor: { value: new THREE.Color().setScalar(DEFAULT_PARAMS.bgRevealLightness) },
             uRevealColorAlt: { value: new THREE.Color().setScalar(DEFAULT_PARAMS.bgRevealLightnessAlt) },
             uLineScale: { value: DEFAULT_PARAMS.bgLineScale },
@@ -3536,8 +3545,8 @@
         ctx.scale(dpr, dpr);
         ctx.clearRect(0, 0, width, height);
 
-        const surface = carry === "light" ? "#f7fafb" : "#090a0b";
-        const accent = "#02d2e3";
+        const surface = carry === "light" ? "#0a1240" : "#04091f";
+        const accent = "#FF1744";
         const columns = Math.ceil(width / CELL);
         const rows = Math.ceil(height / CELL);
         const lift = progress * LIFT;
@@ -3965,14 +3974,14 @@
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
         ctx.globalCompositeOperation = 'lighter';
-        ctx.strokeStyle = 'rgb(2 210 227 / 0.08)';
+        ctx.strokeStyle = 'rgb(255 23 68 / 0.08)';
         ctx.lineWidth = GLOW_WIDTH;
         ctx.beginPath();
         ctx.moveTo(points[0][0], points[0][1]);
         for (let i = 1; i < points.length; i++) ctx.lineTo(points[i][0], points[i][1]);
         ctx.stroke();
 
-        ctx.strokeStyle = 'rgb(2 210 227 / 0.18)';
+        ctx.strokeStyle = 'rgb(255 23 68 / 0.18)';
         ctx.lineWidth = GLOW_WIDTH * 0.45;
         ctx.stroke();
         ctx.restore();
@@ -3981,9 +3990,9 @@
         const fromIdx = Math.max(0, points.length - headCount);
         const tip = points[points.length - 1];
         const hotGrad = ctx.createLinearGradient(points[fromIdx][0], points[fromIdx][1], tip[0], tip[1]);
-        hotGrad.addColorStop(0, 'rgb(2 210 227 / 0)');
-        hotGrad.addColorStop(0.45, 'rgb(2 210 227 / 0.9)');
-        hotGrad.addColorStop(1, heat > 0 ? 'rgb(141 243 250 / 1)' : 'rgb(2 210 227 / 1)');
+        hotGrad.addColorStop(0, 'rgb(255 23 68 / 0)');
+        hotGrad.addColorStop(0.45, 'rgb(255 23 68 / 0.9)');
+        hotGrad.addColorStop(1, heat > 0 ? 'rgb(255 198 0 / 1)' : 'rgb(255 23 68 / 1)');
 
         ctx.save();
         ctx.lineCap = 'round';
@@ -3999,7 +4008,7 @@
           const coreFrom = Math.max(0, points.length - Math.round(headCount * 0.42));
           if (points.length - coreFrom > 1) {
             const coreGrad = ctx.createLinearGradient(points[coreFrom][0], points[coreFrom][1], tip[0], tip[1]);
-            coreGrad.addColorStop(0, 'rgb(141 243 250 / 0)');
+            coreGrad.addColorStop(0, 'rgb(255 198 0 / 0)');
             coreGrad.addColorStop(1, `rgb(255 255 255 / ${0.95 * heat})`);
             ctx.strokeStyle = coreGrad;
             ctx.lineWidth = LINE_WIDTH * 0.38;
@@ -4012,8 +4021,8 @@
           ctx.globalCompositeOperation = 'lighter';
           const spark = ctx.createRadialGradient(tip[0], tip[1], 0, tip[0], tip[1], LINE_WIDTH * 2.6);
           spark.addColorStop(0, `rgb(255 255 255 / ${0.85 * heat})`);
-          spark.addColorStop(0.35, `rgb(141 243 250 / ${0.4 * heat})`);
-          spark.addColorStop(1, 'rgb(2 210 227 / 0)');
+          spark.addColorStop(0.35, `rgb(255 198 0 / ${0.4 * heat})`);
+          spark.addColorStop(1, 'rgb(255 23 68 / 0)');
           ctx.fillStyle = spark;
           ctx.beginPath();
           ctx.arc(tip[0], tip[1], LINE_WIDTH * 2.6, 0, Math.PI * 2);
@@ -4025,9 +4034,9 @@
           const age = Math.min(1, (distance - marker.d) / MARKER_POP_UNITS);
           const radius = 12 + (1 - age) * 14;
           const mglow = ctx.createRadialGradient(marker.x, marker.y, 0, marker.x, marker.y, radius);
-          mglow.addColorStop(0, `rgb(141 243 250 / ${0.5 + 0.45 * (1 - age)})`);
-          mglow.addColorStop(0.45, 'rgb(2 210 227 / 0.32)');
-          mglow.addColorStop(1, 'rgb(2 210 227 / 0)');
+          mglow.addColorStop(0, `rgb(255 198 0 / ${0.5 + 0.45 * (1 - age)})`);
+          mglow.addColorStop(0.45, 'rgb(255 23 68 / 0.32)');
+          mglow.addColorStop(1, 'rgb(255 23 68 / 0)');
           ctx.globalCompositeOperation = 'lighter';
           ctx.fillStyle = mglow;
           ctx.beginPath();
@@ -4162,7 +4171,7 @@
           const crossX = DOT_LATTICE.originX + targetCol * DOT_LATTICE.pitchX;
           const crossY = DOT_LATTICE.originY + targetRow * DOT_LATTICE.pitchY;
 
-          ctx.strokeStyle = 'rgb(2 210 227 / 0.4)';
+          ctx.strokeStyle = 'rgb(255 23 68 / 0.4)';
           ctx.lineWidth = 1.2;
           ctx.setLineDash([6, 6]);
           ctx.beginPath();
@@ -4178,7 +4187,7 @@
               const intensity = 1 - d / radius;
               if (intensity > 0.34) {
                 const sqSize = DOT_LATTICE.pitchX * (0.7 + 0.3 * intensity);
-                ctx.fillStyle = (dot.r + dot.c) % 2 === 0 ? '#02d2e3' : '#ffffff';
+                ctx.fillStyle = (dot.r + dot.c) % 2 === 0 ? '#FF1744' : '#FFC600';
                 ctx.fillRect(dot.x - sqSize / 2, dot.y - sqSize / 2, sqSize, sqSize);
               }
             }
@@ -4305,7 +4314,7 @@
       initCircuitStage();
       initTimeline();
       initChequeredSeam('paddock-seam-canvas', 'dark');
-      initContourCanvas('paddock-contour-canvas', 'rgba(9, 10, 11, 0.08)');
+      initContourCanvas('paddock-contour-canvas', 'rgba(13, 30, 120, 0.25)');
       initContourCanvas('signoff-contour-canvas', 'rgba(255, 255, 255, 0.1)');
       initSignoffFigure();
     });

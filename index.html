@@ -1367,8 +1367,9 @@
       border-radius: 12px;
       padding: 8px;
       box-shadow: 0 24px 50px rgba(0, 0, 0, 0.85);
-      transition: border-color 0.4s ease;
-      will-change: transform, opacity, filter;
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
+      will-change: transform;
+      opacity: 1;
     }
     .plate-image-frame {
       position: relative;
@@ -1400,8 +1401,9 @@
       letter-spacing: 0.04em;
       pointer-events: none;
       z-index: 6;
-      will-change: transform, opacity, color;
-      transition: color 0.3s ease;
+      opacity: 1;
+      will-change: transform, color;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
     }
 
     /* Description Beside Featured Image */
@@ -1419,7 +1421,8 @@
       color: var(--foreground-on-dark-muted);
       pointer-events: none;
       z-index: 4;
-      will-change: transform, opacity;
+      opacity: 1;
+      will-change: transform;
     }
     .milestone-desc .desc-lead {
       color: var(--foreground-on-dark);
@@ -1448,7 +1451,8 @@
       border-radius: 10px;
       padding: 6px;
       box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75);
-      will-change: opacity, filter;
+      opacity: 1;
+      will-change: transform;
     }
     .milestone-plate.secondary-card .plate-image-frame {
       aspect-ratio: 16 / 10;
@@ -4425,51 +4429,47 @@
           const activeBand = 0.5;
           const focus = Math.max(0, 1 - absNorm / activeBand);
 
-          // Smooth positional transition, opacity, and darkness
-          // As card moves upwards (norm < 0): becomes darker and less visible
-          const opacity = Math.min(1, Math.max(0.2, 0.2 + 0.8 * focus));
-          const brightness = Math.min(1.05, Math.max(0.3, 0.3 + 0.7 * focus));
-          const contrast = Math.min(1.15, Math.max(0.9, 0.9 + 0.2 * focus));
-          const scale = 0.95 + 0.05 * focus;
+          // Smooth positional transition: NO fade in or fade out on cards
+          const scale = 0.96 + 0.04 * focus;
           const yShift = norm * -8;
 
-          featuredCard.style.opacity = opacity.toFixed(3);
-          featuredCard.style.filter = `brightness(${brightness.toFixed(2)}) contrast(${contrast.toFixed(2)})`;
+          featuredCard.style.opacity = '1';
+          featuredCard.style.filter = 'none';
           featuredCard.style.transform = `scale(${scale.toFixed(3)}) translateY(${yShift.toFixed(1)}px)`;
+          featuredCard.style.borderColor = focus > 0.35 ? 'var(--accent)' : 'var(--timeline-outline)';
 
-          // Active Year transitions into bright accent color at center
+          // Active Year transitions into bright accent color at center (solid, no opacity fade)
           if (activeYear) {
+            activeYear.style.opacity = '1';
             if (focus > 0.3) {
               activeYear.style.color = 'var(--accent)';
-              activeYear.style.opacity = Math.min(1, 0.3 + 0.7 * focus).toFixed(2);
-              activeYear.style.transform = `translate(-50%, -50%) scale(${(0.92 + 0.08 * focus).toFixed(3)})`;
+              activeYear.style.transform = `translate(-50%, -50%) scale(${(0.96 + 0.06 * focus).toFixed(3)})`;
               activeYear.style.textShadow = '0 0 24px rgba(0, 0, 0, 0.95), 0 0 16px var(--accent-muted)';
             } else {
-              activeYear.style.color = 'var(--accent-muted)';
-              activeYear.style.opacity = '0.35';
-              activeYear.style.transform = 'translate(-50%, -50%) scale(0.92)';
-              activeYear.style.textShadow = '0 0 16px rgba(0, 0, 0, 0.9)';
+              activeYear.style.color = 'rgba(0, 245, 212, 0.4)';
+              activeYear.style.transform = 'translate(-50%, -50%) scale(0.95)';
+              activeYear.style.textShadow = '0 0 14px rgba(0, 0, 0, 0.85)';
             }
           }
 
-          // Descriptions subtle opacity and movement transition
+          // Descriptions: solid and clearly readable, smooth position follow
           if (desc) {
-            desc.style.opacity = Math.min(1, 0.2 + 0.8 * focus).toFixed(2);
+            desc.style.opacity = '1';
             if (window.innerWidth > 1024) {
-              desc.style.transform = `translateY(calc(-50% + ${(norm * -14).toFixed(1)}px))`;
+              desc.style.transform = `translateY(calc(-50% + ${(norm * -10).toFixed(1)}px))`;
             } else {
               desc.style.transform = 'none';
             }
           }
 
-          // Secondary Image Depth & Parallax
+          // Secondary Image Depth & Parallax: solid, no fade in or fade out
           if (secondaryWrap) {
             const secPlate = secondaryWrap.querySelector('.milestone-plate.secondary-card');
-            const secParallax = norm * 26;
+            const secParallax = norm * 24;
             secondaryWrap.style.transform = `translateY(${secParallax.toFixed(1)}px)`;
             if (secPlate) {
-              secPlate.style.opacity = Math.min(1, 0.25 + 0.75 * focus).toFixed(2);
-              secPlate.style.filter = `brightness(${brightness.toFixed(2)}) contrast(${contrast.toFixed(2)})`;
+              secPlate.style.opacity = '1';
+              secPlate.style.filter = 'none';
             }
           }
         });

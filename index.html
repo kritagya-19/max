@@ -973,78 +973,7 @@
       color: var(--accent);
     }
 
-    /* LOADING VEIL */
-    #loading-veil {
-      position: fixed;
-      inset: 0;
-      z-index: 50;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: var(--background);
-      pointer-events: auto;
-      transition: opacity 700ms var(--ease-entrance);
-    }
 
-    .veil-helmet-box {
-      position: relative;
-      width: 7.2rem;
-      height: 8.5rem;
-      -webkit-mask-image: url("./assets/hero/helmet-mask.png");
-      mask-image: url("./assets/hero/helmet-mask.png");
-      -webkit-mask-size: contain;
-      mask-size: contain;
-      -webkit-mask-repeat: no-repeat;
-      mask-repeat: no-repeat;
-      -webkit-mask-position: center;
-      mask-position: center;
-    }
-
-    .veil-helmet-shell {
-      position: absolute;
-      inset: 0;
-      background: var(--foreground);
-      opacity: 0.12;
-    }
-
-    .veil-helmet-fill {
-      position: absolute;
-      inset: 0;
-      background: var(--foreground);
-      transform-origin: top;
-      transform: scaleY(0);
-      will-change: transform;
-    }
-
-    .veil-name {
-      margin-top: 1.75rem;
-      font-size: var(--type-lead);
-      text-transform: uppercase;
-      line-height: var(--raw-leading-90);
-      letter-spacing: 0.18em;
-      color: var(--foreground);
-      opacity: 0;
-      transform: translateY(0.6rem);
-      will-change: transform, opacity;
-    }
-
-    .veil-meter-track {
-      position: absolute;
-      inset-inline: 0;
-      bottom: 0;
-      height: 4px;
-      background: var(--border-muted);
-    }
-
-    .veil-meter-fill {
-      width: 100%;
-      height: 100%;
-      background: var(--foreground);
-      transform-origin: left;
-      transform: scaleX(0);
-      will-change: transform;
-    }
 
     /* FULLSCREEN MOBILE MENU SHEET */
     #nav-sheet {
@@ -1597,6 +1526,7 @@
     }
 
     .milestone-plate.featured-card {
+      position: relative;
       width: 100%;
       background: var(--surface-dark);
       border: 1px solid var(--timeline-outline);
@@ -1606,6 +1536,43 @@
       transition: border-color 0.4s ease, box-shadow 0.4s ease;
       will-change: transform;
       opacity: 1;
+    }
+
+    /* Stepped Tab Shapes & Tech Frame Borders */
+    .milestone-plate.tab-step-right {
+      clip-path: url(#timeline-clip-step-right);
+      border: none !important;
+      border-radius: 0 !important;
+    }
+    .milestone-plate.tab-step-right .plate-image-frame {
+      clip-path: url(#timeline-clip-step-right);
+      border-radius: 0;
+    }
+
+    .milestone-plate.tab-step-left {
+      clip-path: url(#timeline-clip-step-left);
+      border: none !important;
+      border-radius: 0 !important;
+    }
+    .milestone-plate.tab-step-left .plate-image-frame {
+      clip-path: url(#timeline-clip-step-left);
+      border-radius: 0;
+    }
+
+    .plate-tech-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .tech-frame-border {
+      fill: none;
+      stroke: var(--timeline-outline);
+      stroke-width: 1.4;
+      transition: stroke 0.35s ease, filter 0.35s ease;
     }
 
     .plate-image-frame {
@@ -1681,12 +1648,17 @@
       top: 60%;
     }
 
+    .milestone-secondary-wrap.side-right.side-top {
+      top: -20% !important;
+    }
+
     .milestone-secondary-wrap.side-left {
       left: -4%;
       top: 60%;
     }
 
     .milestone-plate.secondary-card {
+      position: relative;
       width: 100%;
       background: var(--surface-dark);
       border: 1px solid var(--timeline-outline);
@@ -2136,17 +2108,7 @@
 
 <body>
 
-  <!-- LOADING VEIL -->
-  <div id="loading-veil" role="status" aria-label="Loading Grido1 Racing Systems">
-    <div class="veil-helmet-box">
-      <div class="veil-helmet-shell"></div>
-      <div class="veil-helmet-fill" id="veil-fill"></div>
-    </div>
-    <div class="veil-name" id="veil-name">MAX VERSTAPPEN</div>
-    <div class="veil-meter-track">
-      <div class="veil-meter-fill" id="veil-meter"></div>
-    </div>
-  </div>
+
 
   <!-- FULLSCREEN MOBILE NAV SHEET -->
   <div id="nav-sheet">
@@ -2550,6 +2512,18 @@
 
     <!-- 3 — FROM KARTS TO F1 (CINEMATIC SCROLL-DRIVEN TIMELINE) -->
     <section data-timeline id="timeline-section" class="cinematic-timeline">
+      <!-- Stepped Tab Clip Definitions -->
+      <svg width="0" height="0" style="position:absolute;pointer-events:none;" aria-hidden="true">
+        <defs>
+          <clipPath id="timeline-clip-step-right" clipPathUnits="objectBoundingBox">
+            <path d="M 0.024,0 L 0.976,0 Q 1,0 1,0.024 L 1,0.885 Q 1,0.915 0.976,0.915 L 0.56,0.915 Q 0.525,0.915 0.505,0.955 Q 0.49,1 0.455,1 L 0.024,1 Q 0,1 0,0.976 L 0,0.024 Q 0,0 0.024,0 Z" />
+          </clipPath>
+          <clipPath id="timeline-clip-step-left" clipPathUnits="objectBoundingBox">
+            <path d="M 0.024,0 L 0.976,0 Q 1,0 1,0.024 L 1,0.976 Q 1,1 0.976,1 L 0.545,1 Q 0.51,1 0.495,0.955 Q 0.475,0.915 0.44,0.915 L 0.024,0.915 Q 0,0.915 0,0.885 L 0,0.024 Q 0,0 0.024,0 Z" />
+          </clipPath>
+        </defs>
+      </svg>
+
       <!-- Upper Section Transition Divider: Chequered Flag Pattern -->
       <div class="timeline-checkerboard-wrap top" aria-hidden="true">
         <svg class="timeline-checkerboard-svg" width="100%" height="24" viewBox="0 0 1200 24"
@@ -2574,7 +2548,7 @@
       <!-- Section Title in Top Right -->
       <div class="timeline-intro-header">
         <h2 class="timeline-intro-title">
-          FROM KARTS<br>TO F1<span class="timeline-intro-dot">■</span>
+          FROM KARTS<br>TO F1.
         </h2>
       </div>
 
@@ -2590,12 +2564,15 @@
         <!-- Milestone 1: 2012 -->
         <div class="timeline-milestone" data-milestone="2012">
           <div class="milestone-featured-wrap">
-            <div class="milestone-plate featured-card">
+            <div class="milestone-plate featured-card tab-step-right">
               <div class="plate-image-frame">
                 <img src="./assets/timeline/timeline-2012-featured.jpg" alt="2012 Karting Debut" class="milestone-photo"
                   loading="lazy">
               </div>
               <div class="milestone-active-year">2012</div>
+              <svg class="plate-tech-frame" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <path class="tech-frame-border" d="M 2.4,0.5 L 97.6,0.5 Q 99.5,0.5 99.5,2.4 L 99.5,88.5 Q 99.5,91.5 97.6,91.5 L 56,91.5 Q 52.5,91.5 50.5,95.5 Q 49,99.5 45.5,99.5 L 2.4,99.5 Q 0.5,99.5 0.5,97.6 L 0.5,2.4 Q 0.5,0.5 2.4,0.5 Z" vector-effect="non-scaling-stroke" />
+              </svg>
             </div>
             <div class="milestone-desc">
               <span class="desc-lead">THE FIRST KART.</span> AT SIX, KIMI DISCOVERED KARTING — TURNING A CHILDHOOD
@@ -2604,11 +2581,14 @@
           </div>
           <!-- Secondary Image Offset Right -->
           <div class="milestone-secondary-wrap side-right">
-            <div class="milestone-plate secondary-card">
+            <div class="milestone-plate secondary-card tab-step-left">
               <div class="plate-image-frame">
                 <img src="./assets/timeline/timeline-2012-secondary.jpg" alt="Trofeo Easykart Trophy"
                   class="milestone-photo" loading="lazy">
               </div>
+              <svg class="plate-tech-frame" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <path class="tech-frame-border" d="M 2.4,0.5 L 97.6,0.5 Q 99.5,0.5 99.5,2.4 L 99.5,97.6 Q 99.5,99.5 97.6,99.5 L 54.5,99.5 Q 51,99.5 49.5,95.5 Q 47.5,91.5 44,91.5 L 2.4,91.5 Q 0.5,91.5 0.5,88.5 L 0.5,2.4 Q 0.5,0.5 2.4,0.5 Z" vector-effect="non-scaling-stroke" />
+              </svg>
             </div>
           </div>
         </div>
@@ -2622,20 +2602,26 @@
         <div class="timeline-milestone" data-milestone="2019">
           <!-- Secondary Image Offset Left -->
           <div class="milestone-secondary-wrap side-left">
-            <div class="milestone-plate secondary-card">
+            <div class="milestone-plate secondary-card tab-step-right">
               <div class="plate-image-frame">
                 <img src="./assets/timeline/timeline-2019-secondary.jpg" alt="Prema Racing Paddock"
                   class="milestone-photo" loading="lazy">
               </div>
+              <svg class="plate-tech-frame" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <path class="tech-frame-border" d="M 2.4,0.5 L 97.6,0.5 Q 99.5,0.5 99.5,2.4 L 99.5,88.5 Q 99.5,91.5 97.6,91.5 L 56,91.5 Q 52.5,91.5 50.5,95.5 Q 49,99.5 45.5,99.5 L 2.4,99.5 Q 0.5,99.5 0.5,97.6 L 0.5,2.4 Q 0.5,0.5 2.4,0.5 Z" vector-effect="non-scaling-stroke" />
+              </svg>
             </div>
           </div>
           <div class="milestone-featured-wrap">
-            <div class="milestone-plate featured-card">
+            <div class="milestone-plate featured-card tab-step-left">
               <div class="plate-image-frame">
                 <img src="./assets/timeline/timeline-2019-featured.jpg" alt="Signing Mercedes Junior Team Contract"
                   class="milestone-photo" loading="lazy">
               </div>
               <div class="milestone-active-year">2019</div>
+              <svg class="plate-tech-frame" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <path class="tech-frame-border" d="M 2.4,0.5 L 97.6,0.5 Q 99.5,0.5 99.5,2.4 L 99.5,97.6 Q 99.5,99.5 97.6,99.5 L 54.5,99.5 Q 51,99.5 49.5,95.5 Q 47.5,91.5 44,91.5 L 2.4,91.5 Q 0.5,91.5 0.5,88.5 L 0.5,2.4 Q 0.5,0.5 2.4,0.5 Z" vector-effect="non-scaling-stroke" />
+              </svg>
             </div>
             <div class="milestone-desc">
               <span class="desc-lead">FINDING HIS PEOPLE.</span> KIMI JOINED THE MERCEDES JUNIOR PROGRAMME, MARKING HIS
@@ -2652,12 +2638,15 @@
         <!-- Milestone 3: 2024 -->
         <div class="timeline-milestone" data-milestone="2024">
           <div class="milestone-featured-wrap">
-            <div class="milestone-plate featured-card">
+            <div class="milestone-plate featured-card tab-step-right">
               <div class="plate-image-frame">
                 <img src="./assets/timeline/timeline-2024-featured.jpg" alt="2024 FIA Formula 2 & Mercedes Confirmation"
                   class="milestone-photo" loading="lazy">
               </div>
               <div class="milestone-active-year">2024</div>
+              <svg class="plate-tech-frame" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <path class="tech-frame-border" d="M 2.4,0.5 L 97.6,0.5 Q 99.5,0.5 99.5,2.4 L 99.5,88.5 Q 99.5,91.5 97.6,91.5 L 56,91.5 Q 52.5,91.5 50.5,95.5 Q 49,99.5 45.5,99.5 L 2.4,99.5 Q 0.5,99.5 0.5,97.6 L 0.5,2.4 Q 0.5,0.5 2.4,0.5 Z" vector-effect="non-scaling-stroke" />
+              </svg>
             </div>
             <div class="milestone-desc">
               <span class="desc-lead">THE YEAR EVERYTHING CHANGED.</span> FORMULA 2 BROUGHT KIMI CLOSER TO F1, WHILE
@@ -2666,11 +2655,14 @@
           </div>
           <!-- Secondary Image Offset Right -->
           <div class="milestone-secondary-wrap side-right">
-            <div class="milestone-plate secondary-card">
+            <div class="milestone-plate secondary-card tab-step-left">
               <div class="plate-image-frame">
                 <img src="./assets/timeline/timeline-2024-secondary.jpg" alt="Mercedes Garage Paddock"
                   class="milestone-photo" loading="lazy">
               </div>
+              <svg class="plate-tech-frame" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <path class="tech-frame-border" d="M 2.4,0.5 L 97.6,0.5 Q 99.5,0.5 99.5,2.4 L 99.5,97.6 Q 99.5,99.5 97.6,99.5 L 54.5,99.5 Q 51,99.5 49.5,95.5 Q 47.5,91.5 44,91.5 L 2.4,91.5 Q 0.5,91.5 0.5,88.5 L 0.5,2.4 Q 0.5,0.5 2.4,0.5 Z" vector-effect="non-scaling-stroke" />
+              </svg>
             </div>
           </div>
         </div>
@@ -2683,16 +2675,31 @@
         <!-- Milestone 4: 2026 -->
         <div class="timeline-milestone" data-milestone="2026">
           <div class="milestone-featured-wrap">
-            <div class="milestone-plate featured-card">
+            <div class="milestone-plate featured-card tab-step-left">
               <div class="plate-image-frame">
                 <img src="./assets/timeline/timeline-2026-featured.jpg" alt="2026 Mercedes-AMG F1 Driver"
                   class="milestone-photo" loading="lazy">
               </div>
               <div class="milestone-active-year">2026</div>
+              <svg class="plate-tech-frame" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <path class="tech-frame-border" d="M 2.4,0.5 L 97.6,0.5 Q 99.5,0.5 99.5,2.4 L 99.5,97.6 Q 99.5,99.5 97.6,99.5 L 54.5,99.5 Q 51,99.5 49.5,95.5 Q 47.5,91.5 44,91.5 L 2.4,91.5 Q 0.5,91.5 0.5,88.5 L 0.5,2.4 Q 0.5,0.5 2.4,0.5 Z" vector-effect="non-scaling-stroke" />
+              </svg>
             </div>
             <div class="milestone-desc">
               <span class="desc-lead">FROM KARTS TO F1.</span> KIMI IS NOW RACING AT THE HIGHEST LEVEL, WITH BOLOGNA
               STILL HIS ANCHOR — FAMILY, HOME AND LIFE BEYOND RACING.
+            </div>
+          </div>
+          <!-- Secondary Image Offset Top-Right (as in 2026 reference) -->
+          <div class="milestone-secondary-wrap side-right side-top">
+            <div class="milestone-plate secondary-card tab-step-left">
+              <div class="plate-image-frame">
+                <img src="./assets/timeline/timeline-2024-secondary.jpg" alt="Mercedes Garage Paddock"
+                  class="milestone-photo" loading="lazy">
+              </div>
+              <svg class="plate-tech-frame" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <path class="tech-frame-border" d="M 2.4,0.5 L 97.6,0.5 Q 99.5,0.5 99.5,2.4 L 99.5,97.6 Q 99.5,99.5 97.6,99.5 L 54.5,99.5 Q 51,99.5 49.5,95.5 Q 47.5,91.5 44,91.5 L 2.4,91.5 Q 0.5,91.5 0.5,88.5 L 0.5,2.4 Q 0.5,0.5 2.4,0.5 Z" vector-effect="non-scaling-stroke" />
+              </svg>
             </div>
           </div>
         </div>
@@ -3769,85 +3776,13 @@
         }
       }, () => scene._tier.frameInterval);
 
-      // Loading Veil Progress Springs
-      const veil = document.getElementById('loading-veil');
-      const veilFill = document.getElementById('veil-fill');
-      const veilMeter = document.getElementById('veil-meter');
-      const veilName = document.getElementById('veil-name');
-
-      const progressSpring = new Spring({ tension: 10, friction: 30, from: 0, to: 0.7 });
-      let sceneReady = false;
-
-      // Reveal veil driver text at +260ms
-      setTimeout(() => {
-        veilName.style.transition = 'opacity 500ms ease, transform 500ms cubic-bezier(0.2, 0, 0, 1)';
-        veilName.style.opacity = '1';
-        veilName.style.transform = 'translateY(0)';
-      }, 260);
-
-      const updateLoader = (time) => {
-        const currentProgress = progressSpring.step(16);
-        veilFill.style.transform = `scaleY(${currentProgress})`;
-        veilMeter.style.transform = `scaleX(${currentProgress})`;
-
-        if (sceneReady && currentProgress >= 0.999) {
-          // Three beats exit:
-          veilFill.style.transition = 'opacity 250ms ease';
-          veilFill.style.opacity = '0';
-          veilMeter.style.transition = 'opacity 250ms ease';
-          veilMeter.style.opacity = '0';
-          veilName.style.transition = 'opacity 250ms ease, transform 250ms cubic-bezier(0.2, 0, 0, 1)';
-          veilName.style.opacity = '0';
-          veilName.style.transform = 'translateY(-0.75rem)';
-
-          // Beat 2: 430 + 240ms later veil lifts, page entrance handover begins
-          setTimeout(() => {
-            veil.style.opacity = '0';
-            veil.style.pointerEvents = 'none';
-            scene.beginRise();
-            triggerPageEntrance();
-
-            // Beat 3: Remove veil when rendered opacity <= 0.004
-            const checkRemoved = () => {
-              const op = parseFloat(getComputedStyle(veil).opacity);
-              if (op <= 0.004) {
-                veil.remove();
-              } else {
-                requestAnimationFrame(checkRemoved);
-              }
-            };
-            requestAnimationFrame(checkRemoved);
-          }, 670);
-
-          return false; // Done loader loop
-        }
-        return true;
-      };
-
-      const unregisterLoader = subscribe((time) => {
-        const keepGoing = updateLoader(time);
-        if (!keepGoing) unregisterLoader();
-      }, () => 0);
-
-      scene.onReady = () => {
-        sceneReady = true;
-        progressSpring.tension = 170;
-        progressSpring.friction = 26;
-        progressSpring.setTarget(1.0);
-      };
-
-      // Safety fallback: ensure loading veil lifts smoothly within 2.5s even if compilation or an asset takes time
-      setTimeout(() => {
-        if (!sceneReady) {
-          if (scene.onReady) scene.onReady();
-        }
-      }, 2500);
-
       // Page entrance transitions
-      const triggerPageEntrance = () => {
+      function triggerPageEntrance() {
         const masthead = document.getElementById('hero-masthead');
-        masthead.style.transition = 'opacity 700ms cubic-bezier(0.2, 0, 0, 1)';
-        masthead.style.opacity = '1';
+        if (masthead) {
+          masthead.style.transition = 'opacity 700ms cubic-bezier(0.2, 0, 0, 1)';
+          masthead.style.opacity = '1';
+        }
 
         setTimeout(() => {
           const id = document.getElementById('driver-id');
@@ -3891,7 +3826,11 @@
             actions.style.transform = 'translateY(0)';
           }
         }, 1500);
-      };
+      }
+
+      // Rise hero and trigger entrance transitions immediately (no loading screen)
+      scene.beginRise();
+      triggerPageEntrance();
     };
 
     /* =====================================================================
@@ -4638,6 +4577,12 @@
           featuredCard.style.filter = 'none';
           featuredCard.style.transform = `scale(${scale.toFixed(3)}) translateY(${yShift.toFixed(1)}px)`;
           featuredCard.style.borderColor = focus > 0.35 ? 'var(--accent)' : 'var(--timeline-outline)';
+
+          const techBorder = featuredCard.querySelector('.tech-frame-border');
+          if (techBorder) {
+            techBorder.style.stroke = focus > 0.35 ? 'var(--accent)' : 'var(--timeline-outline)';
+            techBorder.style.filter = focus > 0.35 ? 'drop-shadow(0 0 6px rgba(0, 245, 212, 0.45))' : 'none';
+          }
 
           // Active Year transitions into bright accent color at center (solid, no opacity fade)
           if (activeYear) {

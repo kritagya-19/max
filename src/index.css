@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.75rem;
+
+    /* Max Verstappen Red Bull Website Theme Colors (Dark Theme as Default) */
+    --background: 219 81% 4%;           /* #020813 - Deep atmospheric dark navy */
+    --foreground: 0 0% 100%;             /* #ffffff - Pure crisp white */
+
+    --card: 217 87% 12%;                 /* #041838 - Card surface dark navy */
+    --card-foreground: 0 0% 100%;        /* #ffffff */
+
+    --popover: 217 89% 7%;               /* #020e21 - Deep dropdown/panel fill */
+    --popover-foreground: 0 0% 100%;     /* #ffffff */
+
+    --primary: 230 80% 26%;              /* #0D1E78 - Red Bull Racing Cobalt Blue */
+    --primary-foreground: 0 0% 100%;     /* #ffffff */
+
+    --secondary: 215 82% 24%;            /* #0b346d - Mid navy secondary */
+    --secondary-foreground: 0 0% 100%;   /* #ffffff */
+
+    --muted: 214 87% 15%;                /* #052248 - Subtle navy backdrop */
+    --muted-foreground: 225 40% 67%;     /* #8899cc - Steel blue muted text */
+
+    --accent: 348 100% 55%;              /* #FF1744 - Red Bull Racing Red Accent */
+    --accent-foreground: 0 0% 100%;      /* #ffffff */
+
+    --destructive: 348 100% 55%;         /* #FF1744 - Red Bull Racing Red */
+    --destructive-foreground: 0 0% 100%; /* #ffffff */
+
+    --border: 215 82% 24%;               /* #0b346d - Hairlines & dividers */
+    --input: 215 82% 24%;                /* #0b346d */
+    --ring: 348 100% 55%;                /* #FF1744 - Red Bull Racing Red Focus Ring */
+
+    /* Custom Red Bull Brand Hex Variables */
+    --rb-blue: #0D1E78;
+    --rb-red: #FF1744;
+    --rb-yellow: #FFC600;
+    --rb-cyan: #02D2E3;
+    --rb-navy: #020813;
+  }
+
+  .dark {
+    --background: 219 81% 4%;
+    --foreground: 0 0% 100%;
+    --card: 217 87% 12%;
+    --card-foreground: 0 0% 100%;
+    --popover: 217 89% 7%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 230 80% 26%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 215 82% 24%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 214 87% 15%;
+    --muted-foreground: 225 40% 67%;
+    --accent: 348 100% 55%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 348 100% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 215 82% 24%;
+    --input: 215 82% 24%;
+    --ring: 348 100% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    overflow-x: hidden;
+  }
+}
+

@@ -1,0 +1,212 @@
+/* =====================================================================
+   SIMPLY LOVELY — FORMULA 1 RACING FOOTER
+   Matches reference composition with high-performance WebGL & GSAP
+   ===================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@500;700&display=swap');
+
+.footer-pinned-wrapper {
+  position: relative;
+  width: 100%;
+  height: 280vh; /* Pinned scroll runway */
+  background: #020813;
+}
+
+.simply-lovely-footer {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100lvh;
+  overflow: hidden;
+  background: #020813;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  user-select: none;
+  isolation: isolate;
+  perspective: 1400px;
+}
+
+/* 1. WebGL Canvas Layer (z-index: 1) */
+.footer-webgl-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  display: block;
+}
+
+/* Ambient Vignette & Racing Atmospheric Glow (z-index: 2) */
+.footer-ambient-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 55%, transparent 35%, rgba(2, 8, 19, 0.45) 70%, rgba(2, 8, 19, 0.95) 100%);
+  mix-blend-mode: multiply;
+}
+
+/* 2. Typography Layers */
+.footer-type-layer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  text-align: center;
+  will-change: transform, opacity;
+}
+
+.footer-type-layer.layer-simply {
+  top: 14vh;
+  z-index: 2; /* Behind character */
+}
+
+.footer-type-layer.layer-lovely {
+  top: 63.5vh;
+  z-index: 4; /* Overlapping character lower body */
+}
+
+.footer-word {
+  display: inline-block;
+  font-family: 'Anton', 'Impact', 'Arial Black', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #ffffff;
+  line-height: 0.82;
+  white-space: nowrap;
+  transform-origin: center center;
+  will-change: transform;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+}
+
+.footer-word-inner {
+  display: inline-block;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.word-simply {
+  font-size: clamp(4.5rem, 18.2vw, 33vh);
+  letter-spacing: clamp(0.04em, 1.2vw, 0.08em);
+}
+
+.word-simply .footer-word-inner {
+  transform: scaleX(1.48);
+}
+
+.word-lovely {
+  font-size: clamp(4.5rem, 18.2vw, 33vh);
+  letter-spacing: clamp(0.03em, 0.9vw, 0.06em);
+}
+
+.word-lovely .footer-word-inner {
+  transform: scaleX(1.48);
+}
+
+/* 3. Character Portrait Layer: Max Verstappen */
+.footer-character-layer {
+  position: absolute;
+  top: 11vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  height: 120vh;
+  height: 120lvh;
+  z-index: 3; /* Sandwiched between SIMPLY (2) and LOVELY (4) */
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+.footer-character-img {
+  width: auto;
+  height: 100%;
+  max-width: none;
+  object-fit: contain;
+  object-position: top center;
+  display: block;
+  filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 50px rgba(2, 210, 227, 0.18));
+}
+
+/* Accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Responsive Scaling */
+@media (max-width: 1024px) {
+  .footer-type-layer.layer-simply {
+    top: 14vh;
+  }
+  .footer-type-layer.layer-lovely {
+    top: 64vh;
+  }
+  .word-simply {
+    font-size: clamp(3.8rem, 18vw, 24vh);
+    letter-spacing: 0.04em;
+  }
+  .word-simply .footer-word-inner {
+    transform: scaleX(1.42);
+  }
+  .word-lovely {
+    font-size: clamp(3.8rem, 18vw, 24vh);
+    letter-spacing: 0.03em;
+  }
+  .word-lovely .footer-word-inner {
+    transform: scaleX(1.42);
+  }
+  .footer-character-layer {
+    top: 11vh;
+    height: 115vh;
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-pinned-wrapper {
+    height: 240vh;
+  }
+  .footer-type-layer.layer-simply {
+    top: 14vh;
+  }
+  .footer-type-layer.layer-lovely {
+    top: 65vh;
+  }
+  .word-simply {
+    font-size: clamp(2.8rem, 17.5vw, 18vh);
+    letter-spacing: 0.02em;
+  }
+  .word-simply .footer-word-inner {
+    transform: scaleX(1.35);
+  }
+  .word-lovely {
+    font-size: clamp(2.8rem, 17.5vw, 18vh);
+    letter-spacing: 0.015em;
+  }
+  .word-lovely .footer-word-inner {
+    transform: scaleX(1.35);
+  }
+  .footer-character-layer {
+    top: 11vh;
+    height: 108vh;
+  }
+}
